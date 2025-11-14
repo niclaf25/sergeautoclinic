@@ -22,23 +22,18 @@
 body {
     margin: 0;
     padding: 0;
-    /* If you want the page height to expand only as needed, 
-       remove or reduce this forced height. */
-    /* height: 8000px; */
     width: 100%;
     color: white;
-    background-color: black; /* Body will now have a simple black background */
+    background-color: black;
     font-family: "Montserrat", sans-serif;
-    overflow-x: hidden; /* Consistent with your last setup */
+    overflow-x: hidden;
   }
   
-  /* Montserrat Font (Local) */
   @font-face {
     font-family: 'Montserrat';
     src: url('Fonts/Montserrat/Montserrat-VariableFont_wght.ttf');
   }
   
-  /* Optional: Base for wrapper if used consistently */
   .wrapper {
     position: relative;
     min-height: 100vh;
@@ -50,32 +45,31 @@ body {
   .section_1 {
     min-height: 100vh;
     position: relative;
-    z-index: 1; /* Establish a stacking context for its children */
+    z-index: auto;
   }
   
-  /* CORRECTED implementation of the pseudo-element hack */
   .section_1::before {
     content: "";
-    position: fixed; /* THE KEY: Position relative to the viewport */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Place it behind all other content on the page */
+    z-index: -1;
     background-image:
       linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
       url("img/mechanic_working_on_car.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    /* background-attachment is not needed; position:fixed does the job */
+    pointer-events: none;
   }
   
   .header_box {
-    position: absolute; /* CORRECTED: Back to absolute for proper placement */
+    position: absolute;
     left: 5vw;
-    bottom: 10vh;
-    z-index: 2; /* Sits on top of the section_1 content, below later sections */
+  bottom: 6vh;
+    z-index: 2;
     max-width: 90%;
     padding: 1rem;
   }
@@ -89,6 +83,18 @@ body {
     transform: translateY(20px);
     transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
   }
+
+  .hero-location {
+    margin-top: 0.75rem;
+    font-size: clamp(1.2rem, 2.4vw, 2rem);
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
+  }
   
   .sub_header {
     max-width: 60vw;
@@ -99,37 +105,42 @@ body {
     transform: translateY(20px);
     transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
   }
+
+.hero-status {
+  margin-top: 1.6rem;
+  max-width: min(420px, 80vw);
+  display: flex;
+  justify-content: flex-start;
+}
   
   /* === CONTENT SECTIONS (.section_2) === */
   .section_2 {
-    position: relative; /* Added to ensure it scrolls OVER the fixed background */
-    z-index: 2; /* Ensures this section is above the fixed background */
-    width: 100%; /* Ensure full width for background */
+    position: relative;
+    z-index: auto;
+    width: 100%;
     background: linear-gradient(
       0deg,
         rgba(0, 0, 0, 0.8) 0%,
         rgba(0, 0, 0, 0.6) 100%
     );
     padding: 2rem 0;
-    /* Add mask for foggy transition from hero */
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 200px);
     mask-image: linear-gradient(to bottom, transparent 0%, black 200px);
   }
   
   .section_2_content {
-    max-width: 1200px; /* Or your preferred max-width for content */
-    margin: 0 auto;    /* Centers this block within section_2 */
-    padding: 2rem 5%;  /* Keeps existing padding, adjust as needed */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 5%;
     color: #ccc;
     line-height: 1.6;
   }
   
-  /* Individual Content Sections */
   #about, #services, #contact, .hours {
-    padding: 3rem 0;       /* Consistent internal vertical spacing */
-    margin: 0;             /* Reset margins, spacing now handled by padding */
+    padding: 3rem 0;
+    margin: 0;
     text-align: center;
-    scroll-margin-top: 2rem; /* Adjust if fixed headers obscure titles on scroll */
+    scroll-margin-top: clamp(6rem, 14vh, 9rem);
   }
   
   .services h2, .hours h2, .about h2, .contact h2 {
@@ -193,7 +204,7 @@ body {
   /* === FOOTER SECTION (.section_3) === */
   .section_3 {
     position: relative; /* Added to ensure it scrolls OVER the fixed background */
-    z-index: 2; /* Ensures this section is above the fixed background */
+    z-index: auto;
     background-color: #000; /* Set the full strip to black */
     width: 100%;
     padding: 0; /* Reset padding if any, footer element will handle its own */
@@ -213,17 +224,35 @@ body {
   @media (max-width: 900px) {
     .header_box {
         max-width: 100%;
-        bottom: 10vh;
+      bottom: 7vh;
     }
-    /* ADDED: Responsive adjustments for diagonal blocks at 900px */
+    .hero-location {
+        font-size: clamp(1.1rem, 3vw, 1.7rem);
+        letter-spacing: 0.15rem;
+    }
+    .contact-grid {
+        gap: 1.4rem;
+    }
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2.2rem;
+    }
+    .contact-tiles {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.9rem;
+    }
+    .contact-meta {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
     .diagonal-blocks {
         top: -12vw;
         right: -12vw;
         width: 80vw;
         gap: 0.8vw;
+        padding: 1vw;
     }
     .diagonal-block {
-        /* height: 4.5vw !important; */
         min-height: 35px;
         font-size: 3vw !important;
     }
@@ -234,7 +263,7 @@ body {
     .header_box {
         left: 5vw;
         right: 5vw;
-        bottom: 16vh;
+      bottom: 6vh;
     }
 
     .header {
@@ -247,20 +276,12 @@ body {
         font-size: clamp(1rem, 4vw, 1.5rem);
     }
 
+  .hero-status {
+      margin-top: 1.2rem;
+  }
+
     .services-grid {
         grid-template-columns: 1fr;
-    }
-    /* ADDED: Responsive adjustments for diagonal blocks at 600px */
-    .diagonal-blocks {
-        top: -10vw;
-        right: -10vw;
-        width: 90vw;
-        gap: 0.6vw;
-    }
-    .diagonal-block {
-        /* height: 4vw !important; */
-        min-height: 30px;
-        font-size: 3.5vw !important;
     }
     .header {
         max-width: 100%;
@@ -282,26 +303,86 @@ body {
     .hours-table {
         width: 100%;
     }
+  .contact-subtext {
+      max-width: 100%;
+  }
+  .contact-tiles {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  .contact-meta {
+      grid-template-columns: 1fr;
+      gap: 1.1rem;
+  }
+  .diagonal-blocks {
+      top: -10vw;
+      right: -10vw;
+      width: 90vw;
+      gap: 0.6vw;
+      padding: 1vw;
+  }
+  .contact-subtext {
+      max-width: 100%;
+  }
+  .contact-tiles {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.8rem;
+  }
+  .contact-hours-card {
+      padding: 0.95rem 1.05rem;
+  }
+  .diagonal-block {
+      min-height: 30px;
+      font-size: 3.5vw !important;
+  }
+  .diagonal-block::before,
+  .diagonal-block::after {
+      display: none;
+  }
+  .diagonal-blocks.is-sticky {
+      padding: 0.7rem 1rem;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+  }
+  .diagonal-blocks.is-sticky .diagonal-block {
+      flex: 1 1 auto;
+      min-width: 140px;
+      padding: 0.55rem 1.1rem;
+      font-size: clamp(0.85rem, 3.4vw, 0.95rem);
+  }
   }
   
   /* Max-width 600px */
   @media (max-width: 600px) {
     .header_box {
         max-width: 100%;
-        bottom: 16vh;
+      bottom: 5vh;
         left: 2.5vw;
     }
-    /* ADDED: Responsive adjustments for diagonal blocks at 600px */
     .diagonal-blocks {
-        top: -10vw;
-        right: -10vw;
-        width: 90vw;
-        gap: 0.6vw;
+        top: -14vw;
+        right: -20vw;
+        width: 110vw;
+        gap: 3.8vw;
+        padding: 3.6vw 2.4vw;
     }
+   .contact-tiles {
+       grid-template-columns: 1fr;
+       gap: 0.65rem;
+   }
+   .contact-grid {
+      gap: 1.2rem;
+  }
+   .contact-meta {
+       grid-template-columns: 1fr;
+       gap: 1rem;
+   }
+  .hero-status {
+      margin-top: 1rem;
+  }
     .diagonal-block {
-        /* height: 4vw !important; */
-        min-height: 30px;
-        font-size: 3.5vw !important;
+        min-height: clamp(44px, 9vw, 68px);
+        font-size: clamp(0.95rem, 5.8vw, 1.45rem);
+        letter-spacing: 0.1em;
     }
     .header {
         max-width: 100%;
@@ -323,10 +404,69 @@ body {
     .hours-table {
         width: 100%;
     }
+  .diagonal-blocks {
+      top: -10vw;
+      right: -10vw;
+      width: 90vw;
+      gap: 0.6vw;
+  }
+  .diagonal-block {
+      min-height: 30px;
+      font-size: 3.5vw !important;
+  }
+  .diagonal-blocks.is-sticky {
+      top: 0.65rem;
+      width: calc(100% - 1.4rem);
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 18px;
+      padding: 0.7rem 1rem;
+      gap: 0.6rem;
+  }
+  .diagonal-blocks.is-sticky .diagonal-block {
+      width: 100%;
+      flex: 1 1 100%;
+      padding: 0.55rem 1.1rem;
+      border-radius: 12px;
+      letter-spacing: 0.12em;
+  }
+  .contact-hours-card {
+      padding: 0.85rem 0.95rem;
+  }
   }
   
   /* Max-width 480px */
   @media (max-width: 480px) {
+.header_box {
+    bottom: 4vh;
+    left: 5vw;
+    right: 5vw;
+  }
+  .hero-status {
+      margin-top: 0.9rem;
+  }
+  .diagonal-blocks {
+      top: -12vw;
+      right: -12vw;
+      width: 100vw;
+      gap: 2vw;
+  }
+  .contact-tiles {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+  }
+  .contact-meta {
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+  }
+  .diagonal-block {
+      font-size: clamp(0.95rem, 6vw, 1.35rem);
+      letter-spacing: 0.1em;
+  }
+  .diagonal-blocks.is-sticky .diagonal-block {
+      font-size: 0.95rem;
+      letter-spacing: 0.14em;
+  }
     .section_2_content {
         padding: 1rem;
     }
@@ -337,10 +477,6 @@ body {
 
     .hours-table {
         width: 100%;
-    }
-
-    .diagonal-block {
-      font-size: 4vw !important;
     }
   }
   
@@ -353,62 +489,236 @@ body {
     display: none !important;
   }
   
-  /* Styles for Rotated Group of Blocks */
-  .diagonal-blocks { /* This container will be rotated */
-    position: absolute;
-    top: -7vw;  /* Adjust: Start container higher and more to the right */
-    right: 20vw; /* so rotation brings it into view from top-right */
-    width: 70vw;  /* Width of the container before rotation */
-    display: flex;
-    flex-direction: column; 
-    align-items: stretch; /* Blocks will fill width of rotated container */
-    gap: 1vw; 
-    z-index: 2; /* Keep on top of other hero content */
-    transform: rotate(45deg);
-    transform-origin: top right;
-    pointer-events: none; /* Allow clicks on blocks inside */
-    opacity: 0;
-    transition: opacity 0.8s ease-out;
-  }
+/* Styles for Rotated Group of Blocks */
+.diagonal-blocks {
+  position: absolute;
+  top: -7vw;
+  right: 20vw;
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1vw;
+  padding: 1vw;
+  z-index: 60;
+  transform: rotate(45deg);
+  transform-origin: top right;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.5s ease, top 0.5s ease, right 0.5s ease, width 0.5s ease, padding 0.5s ease;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+}
 
-  .diagonal-block { /* Individual UN-ROTATED blocks inside the rotated container */
-    width: 250%; /* Fill width of parent (.diagonal-blocks) */
-    height: 5vw; 
-    min-height: 40px;
-    padding: 1vw 1.5vw;
-    font-size: 3vw;
-    font-weight: 800;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.2s, box-shadow 0.2s, filter 0.2s, transform 0.2s ease-out;
-    border: none;
-    display: flex; 
+.nav-brand {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 3vw);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: auto;
+  transform: translateY(-50%) rotate(-14deg);
+  transition: opacity 0.45s ease, transform 0.55s ease;
+}
+
+.nav-logo {
+  width: clamp(180px, 22vw, 260px);
+  height: auto;
+  display: block;
+}
+
+.diagonal-block {
+  --block-bg: transparent;
+  --block-color: #111;
+  --hover-bg: linear-gradient(135deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.16));
+  --hover-color: var(--block-color);
+  --sticky-base-bg: rgba(255, 255, 255, 0.05);
+  --sticky-base-color: #fff;
+  --sticky-hover-bg: rgba(0, 0, 0, 0.16);
+  --sticky-hover-color: #fff;
+  width: 250%;
+  min-height: 40px;
+  padding: 1vw 1.5vw;
+  font-size: 3vw;
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 0.08em;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  filter: saturate(110%);
+  background: var(--block-bg, transparent);
+  color: var(--block-color);
+  transition: background 0.35s ease, color 0.35s ease, box-shadow 0.35s ease, filter 0.3s ease;
+}
+
+.diagonal-block span {
+  position: relative;
+  z-index: 1;
+}
+
+.diagonal-block:hover {
+  cursor: pointer;
+}
+
+.diagonal-block::before,
+.diagonal-block::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: clamp(26px, 3vw, 40px);
+  height: clamp(26px, 3vw, 40px);
+  background: url("img/wrenches.png") no-repeat center / contain;
+  opacity: 0;
+  transform: translateY(-50%) scale(0.75);
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.diagonal-block::before {
+  left: 1.1rem;
+}
+
+.diagonal-block::after {
+  right: 1.1rem;
+  transform: translateY(-50%) scale(0.75) scaleX(-1);
+}
+
+.diagonal-block:hover {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.38);
+  background: var(--hover-bg);
+  color: var(--hover-color);
+}
+
+.diagonal-block:hover::before,
+.diagonal-block:hover::after {
+  opacity: 0.9;
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Colors - apply directly to block variants */
+.block-contact {
+  --block-bg: linear-gradient(135deg, #eb0a1e, #ff3a34);
+  --hover-bg: linear-gradient(135deg, #d9091c, #f02929);
+  --block-color: #1b0708;
+  --hover-color: #1b0708;
+  --sticky-base-bg: rgba(235, 10, 30, 0.25);
+  --sticky-base-color: #fff;
+  --sticky-hover-bg: linear-gradient(135deg, rgba(235, 10, 30, 0.36), rgba(255, 58, 52, 0.4));
+  --sticky-hover-color: #fff;
+}
+
+.block-services {
+  --block-bg: linear-gradient(135deg, #f97101, #ffb338);
+  --hover-bg: linear-gradient(135deg, #df6806, #f59b2e);
+  --block-color: #1a1205;
+  --hover-color: #1a1205;
+  --sticky-base-bg: rgba(249, 113, 1, 0.24);
+  --sticky-base-color: #fff;
+  --sticky-hover-bg: linear-gradient(135deg, rgba(249, 113, 1, 0.32), rgba(255, 179, 56, 0.38));
+  --sticky-hover-color: #fff;
+}
+
+.block-about {
+  --block-bg: linear-gradient(135deg, #ffe005, #fff37f);
+  --hover-bg: linear-gradient(135deg, #f5cf00, #ffe25e);
+  --block-color: #161003;
+  --hover-color: #161003;
+  --sticky-base-bg: rgba(255, 224, 5, 0.2);
+  --sticky-base-color: #fff;
+  --sticky-hover-bg: linear-gradient(135deg, rgba(255, 224, 5, 0.28), rgba(255, 243, 127, 0.34));
+  --sticky-hover-color: #fff;
+}
+
+.diagonal-blocks.is-sticky {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .diagonal-blocks.is-sticky {
+    position: fixed;
+    top: clamp(1rem, 3vh, 1.6rem);
+    left: 50%;
+    right: auto;
+    width: min(820px, 92vw);
+    margin: 0 auto;
+    padding: 0.8rem 1.6rem;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    pointer-events: auto; /* Enable clicks on blocks */
+    gap: clamp(0.8rem, 2vw, 2rem);
+    transform: translateX(-50%) rotate(0deg);
+    border-radius: 999px;
+    background: rgba(12, 12, 12, 0.92);
+    pointer-events: auto;
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 8000;
   }
 
-  .diagonal-block span {
-    /* No transform needed, text will be horizontal */
-    color: inherit; 
+  .diagonal-blocks.is-sticky .nav-brand {
+    position: static;
+    order: 0;
+    opacity: 1;
+    pointer-events: auto;
+    transform: rotate(0deg);
+    margin-right: clamp(0.6rem, 2vw, 1.2rem);
+    flex: 0 0 auto;
+    color: #fff;
   }
 
-  /* Colors - apply directly to .diagonal-block variants */
-  .block-about {
-    background-color: #ffe005; /* Yellow */
-    color: #222;
+  .diagonal-blocks.is-sticky .diagonal-block {
+    width: auto;
+    min-height: unset;
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    background: var(--sticky-base-bg, rgba(255, 255, 255, 0.05));
+    color: var(--sticky-base-color, #fff);
+    box-shadow: none;
+    transition: background 0.3s ease, color 0.3s ease, letter-spacing 0.3s ease, box-shadow 0.3s ease;
   }
-  .block-services {
-    background-color: #f97101; /* Orange */
-    color: #222;
+
+  .diagonal-blocks.is-sticky .diagonal-block:hover {
+    background: var(--sticky-hover-bg, rgba(255, 255, 255, 0.16));
+    color: var(--sticky-hover-color, #fff);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
   }
-  .block-contact {
-    background-color: #ff0000; /* Red */
-    color: #222;
+
+  .diagonal-blocks.is-sticky .diagonal-block::before,
+  .diagonal-blocks.is-sticky .diagonal-block::after {
+    opacity: 0.45;
+    transform: translateY(-50%) scale(0.65);
+    filter: grayscale(70%) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
   }
-  
+
+  .diagonal-blocks.is-sticky .diagonal-block:hover::before,
+  .diagonal-blocks.is-sticky .diagonal-block:hover::after {
+    opacity: 0.8;
+    transform: translateY(-50%) scale(0.78);
+  }
+}
+
+.nav-sentinel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
   /* New Team Section Styles */
   .team-grid {
     display: grid;
@@ -473,7 +783,7 @@ body {
   }
 
   .about h2::after { /* MODIFIED selector */
-    --separator-color: #ff0000; /* Red */
+    --separator-color: #ffe005; /* Yellow */
   }
 
   .services h2::after { /* MODIFIED selector */
@@ -481,15 +791,9 @@ body {
   }
 
   .contact h2::after {
-    --separator-color: #ffe005; /* Yellow */
+    --separator-color: #ff0000; /* Red */
   }
   /* === END OF SECTION SEPARATORS (Great Separator 1 Under Titles) === */
-
-  /* Make sure H2 titles are block or inline-block for ::after to work as expected */
-  .about h2, .services h2, .contact h2 {
-     /* display: block; or display: inline-block; might be needed if not already set */
-     /* text-align: center; is likely already set on these or their parent */
-  }
 
   /* Original general H2 styling - ensure margin-bottom is appropriate or adjusted */
   .services h2, .hours h2, .about h2, .contact h2 {
@@ -499,113 +803,463 @@ body {
   }
   
   /* Enhanced Contact Section Styles */
-  .contact-details-grid {
+  .contact {
+    position: relative;
+  }
+
+  .contact-wrapper {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
-    gap: 2rem;
-    margin-bottom: 2.5rem; /* Space before action buttons */
-    text-align: left; /* Align text to left within grid items */
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2.5rem;
+    align-items: start;
+    justify-items: center;
   }
 
-  .contact-item {
+  .contact-info {
+    grid-column: 1 / -1;
     display: flex;
-    align-items: flex-start; /* Align icon with the start of the text block */
+    flex-direction: column;
     gap: 1rem;
-    background-color: rgba(255, 255, 255, 0.03);
-    padding: 1.5rem;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    align-items: center;
+    text-align: center;
+    max-width: 980px;
+    width: 100%;
   }
 
-  .contact-item .icon-placeholder {
-    /* This rule might be empty now if all icons are images, or only applies to unreplaced icons */
-    /* font-size: 1.8rem; */
-    /* color: #ffcc00; */
-    /* margin-top: 0.25rem; */
-    /* flex-shrink: 0; */
-    /* width: 30px; */
-    /* text-align: center; */
-  }
-  /* Styling for new image icons in contact details */
-  .contact-icon-img {
-    width: 30px;  /* Desired width for the icon */
-    height: 30px; /* Desired height for the icon */
-    object-fit: contain; /* Scale image to fit within bounds, maintain aspect ratio */
-    margin-top: 0.25rem; /* Align icon better with first line of text */
-    flex-shrink: 0; /* Prevent icon from shrinking */
-  }
-
-  .contact-text strong {
-    display: block;
-    font-size: 1.1rem;
-    color: #fff;
-    margin-bottom: 0.3rem;
-  }
-
-  .contact-text p,
-  .contact-text p a {
-    font-size: 0.95rem;
-    color: #ccc;
-    line-height: 1.5;
-    text-decoration: none;
-  }
-
-  .contact-text p a:hover {
-    color: #ffcc00;
-    text-decoration: underline;
-  }
-
-  .contact-actions {
-    display: flex;
-    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-    gap: 1.5rem;
-    justify-content: center; /* Center buttons */
-    margin-top: 2rem;
-  }
-
-  .contact-button {
+  .contact-pill {
     display: inline-flex;
     align-items: center;
-    padding: 0.8rem 1.8rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: background-color 0.3s, transform 0.2s;
-    border: 1px solid transparent;
+    gap: 0.4rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: rgba(255, 224, 5, 0.08);
+    border: 1px solid rgba(255, 224, 5, 0.25);
+    color: rgba(255, 224, 5, 0.85);
+    align-self: center;
   }
 
-  .contact-button .icon-placeholder {
-    margin-right: 0.6rem;
-    font-size: 1.1em; /* Relative to button font size */
+  .contact-subtext {
+    margin: 0;
+    color: rgba(214, 214, 214, 0.78);
+    max-width: 38ch;
+    line-height: 1.6;
+    text-align: center;
   }
-  /* Styling for new image icons in buttons */
-  .button-icon-img {
-    width: 1.1em; /* Relative to button font size, similar to old icon-placeholder */
-    height: 1.1em; /* Relative to button font size */
+
+.contact-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.6rem;
+}
+
+.contact-tiles {
+  display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 0.85rem;
+    margin-top: 0.2rem;
+  }
+
+.contact-meta {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.6rem;
+  align-items: stretch;
+}
+ 
+ .contact-tile {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+  justify-content: flex-start;
+   gap: 0.65rem;
+   padding: 1rem 1.1rem;
+   border-radius: 14px;
+   border: 1px solid rgba(255, 255, 255, 0.06);
+   background: rgba(28, 28, 28, 0.68);
+   text-decoration: none;
+   color: inherit;
+   text-align: center;
+   transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  --tile-action-bg: rgba(255, 255, 255, 0.12);
+  --tile-action-hover-bg: rgba(255, 255, 255, 0.18);
+  --tile-icon-color: rgba(255, 255, 255, 0.92);
+  --tile-cta-color: rgba(255, 255, 255, 0.68);
+ }
+ 
+ .contact-tile .tile-body {
+   display: flex;
+   flex-direction: column;
+   gap: 0.2rem;
+   align-items: center;
+  flex-grow: 1;
+  justify-content: center;
+ }
+ 
+ .tile-label {
+   font-size: 0.66rem;
+   letter-spacing: 0.16em;
+   text-transform: uppercase;
+   color: rgba(255, 255, 255, 0.55);
+ }
+ 
+ .tile-value {
+   font-size: 0.93rem;
+   font-weight: 600;
+   color: rgba(255, 255, 255, 0.9);
+ }
+ 
+ .tile-value--nowrap {
+   white-space: nowrap;
+ }
+
+.tile-value--address {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.tile-address-line {
+  white-space: nowrap;
+}
+
+.tile-action {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 92px;
+  padding: 0.75rem 0.85rem;
+  border-radius: 14px;
+  background: var(--tile-action-bg);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  margin-top: auto;
+  padding-top: 0.6rem;
+  color: var(--tile-icon-color);
+  text-decoration: none;
+}
+
+.tile-action:hover {
+  transform: translateY(-2px);
+  background: var(--tile-action-hover-bg);
+}
+
+.contact-tile .tile-icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  color: var(--tile-icon-color);
+}
+
+.contact-tile .tile-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+}
+ 
+ .tile-cta-text {
+   font-size: 0.68rem;
+   letter-spacing: 0.2em;
+   text-transform: uppercase;
+  color: var(--tile-cta-color);
+  display: block;
+}
+
+.contact-tile--call {
+  --tile-action-bg: rgba(235, 10, 30, 0.22);
+  --tile-action-hover-bg: rgba(235, 10, 30, 0.3);
+  --tile-icon-color: #ffffff;
+  --tile-cta-color: rgba(255, 233, 213, 0.86);
+}
+
+.contact-tile--map {
+  --tile-action-bg: rgba(249, 113, 1, 0.22);
+  --tile-action-hover-bg: rgba(249, 113, 1, 0.3);
+  --tile-icon-color: #ffffff;
+  --tile-cta-color: rgba(255, 236, 212, 0.86);
+}
+
+.contact-tile--social {
+  --tile-action-bg: rgba(59, 89, 152, 0.3);
+  --tile-action-hover-bg: rgba(59, 89, 152, 0.38);
+  --tile-icon-color: #ffffff;
+  --tile-cta-color: rgba(210, 223, 255, 0.86);
+}
+
+  .contact-tile .tile-icon img {
+    width: 18px;
+    height: 18px;
     object-fit: contain;
-    margin-right: 0.6rem;
   }
 
-  .button-call {
-    background-color: #ffcc00; /* Yellow accent */
-    color: #222;
-    border-color: #ffcc00;
-  }
-  .button-call:hover {
-    background-color: #e6b800;
-    transform: translateY(-2px);
+  .contact-tile .tile-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    align-items: center;
   }
 
-  .button-map {
-    background-color: #f97101; /* Orange accent */
-    color: #fff;
-    border-color: #f97101;
+  .tile-label {
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
   }
-  .button-map:hover {
-    background-color: #e06500;
-    transform: translateY(-2px);
+
+  .tile-value {
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
   }
+ 
+ .tile-value--nowrap {
+   white-space: nowrap;
+ }
+
+.tile-value--address {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.tile-address-line {
+  white-space: nowrap;
+}
+
+  .tile-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .tile-cta-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+
+.contact-hours-card {
+    margin: 0;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.4rem 1.6rem 1rem;
+    background: rgba(22, 22, 22, 0.82);
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .hours-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: 0;
+  }
+
+  .hours-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-align: center;
+    align-items: center;
+  margin-bottom: 1.15rem;
+  }
+
+.hours-title {
+    font-size: 0.95rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255, 224, 5, 0.88);
+    margin: 0;
+  }
+
+  .hours-subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+
+.hours-status {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: flex-start;
+  gap: 1.05rem;
+  padding: 0.95rem 1.3rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.34);
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.hours-status.is-open {
+  background: rgba(65, 207, 136, 0.18);
+  border-color: rgba(74, 214, 138, 0.42);
+  color: rgba(223, 255, 236, 0.95);
+  box-shadow: 0 12px 28px rgba(74, 214, 138, 0.18);
+}
+
+.hours-status.is-closed {
+  background: rgba(235, 10, 30, 0.14);
+  border-color: rgba(235, 10, 30, 0.36);
+  color: rgba(255, 226, 229, 0.9);
+  box-shadow: none;
+}
+
+.hours-status-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.45);
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hours-status.is-open .hours-status-dot {
+  background: #4cff92;
+  box-shadow: 0 0 16px rgba(76, 255, 146, 0.75);
+}
+
+.hours-status.is-closed .hours-status-dot {
+  background: #ff5b6b;
+  box-shadow: 0 0 16px rgba(255, 91, 107, 0.75);
+}
+
+.hours-status-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left;
+}
+
+.hours-status-label {
+  font-size: 0.88rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.hours-status-meta {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.hours-status.is-open .hours-status-meta {
+  color: rgba(223, 255, 236, 0.9);
+}
+
+.hours-status.is-closed .hours-status-meta {
+  color: rgba(255, 226, 229, 0.85);
+}
+
+.hours-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+  .hours-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.32rem 0.55rem;
+    margin: 0 -0.55rem;
+    border-radius: 12px;
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.84);
+    transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  }
+
+  .hours-list li span:first-child {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .hours-list li.is-today {
+    background: rgba(255, 224, 5, 0.12);
+    box-shadow: none;
+  }
+
+  .hours-list li.is-open-now {
+    background: rgba(74, 214, 138, 0.18);
+    box-shadow: none;
+  }
+
+  .hours-list li.is-today span:first-child,
+  .hours-list li.is-today span:last-child {
+    color: rgba(255, 255, 255, 0.94);
+  }
+
+  .hours-list li.is-open-now span:last-child {
+    color: rgba(216, 255, 234, 0.95);
+  }
+
+  .hours-list li[data-closed="true"] span:last-child {
+    color: rgba(255, 178, 178, 0.85);
+    font-weight: 500;
+  }
+
+.contact-location-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    height: 100%;
+  }
+
+.location-frame {
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    height: 100%;
+  min-height: 0;
+  margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.32);
+  }
+
+  .location-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  margin: 0;
+    filter: grayscale(10%) saturate(110%);
+  }
+
   
   /* === INTERACTIVITY & ANIMATIONS === */
 
@@ -615,6 +1269,11 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+
+body.page-loaded .hero-location {
+  opacity: 1;
+  transform: translateY(0);
+}
 
   body.page-loaded .diagonal-blocks {
     opacity: 1;

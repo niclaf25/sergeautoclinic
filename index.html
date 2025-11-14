@@ -14,22 +14,50 @@
 
   <div class="wrapper">
     <!-- SECTION 1: HERO -->
-    <div class="section_1">
+    <div class="section_1" id="hero">
       <div class="header_box">
         <!-- Large Hero Heading -->
         <div class="header" id="mainTitle">Serge<br />Auto Clinic</div>
+        <div class="hero-location">Rockland, Ontario</div>
         <!-- Sub-header / Tagline -->
         <div class="sub_header">
           From Routine Maintenance to Major Repairs, Keep Your Vehicle Running Smoothly with Our Expertise and Passionate Professionals.
         </div>
+           <div class="hero-status">
+             <div class="hours-status" role="status" aria-live="polite">
+               <span class="hours-status-dot" aria-hidden="true"></span>
+               <div class="hours-status-text">
+                 <span class="hours-status-label">Checking hours</span>
+                 <span class="hours-status-meta">Updating schedule…</span>
+               </div>
+             </div>
+           </div>
       </div>
 
       <!-- Diagonal Block Links -->
       <div class="diagonal-blocks">
-        <div class="diagonal-block block-about"><span>Contact Us</span></div>
+        <a class="nav-brand" href="#hero" aria-label="Serge Auto Clinic">
+          <svg class="nav-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 300" role="img" aria-hidden="true">
+            <defs>
+              <style>
+                .serge-nav { font-family: 'Montserrat', Arial, Helvetica, sans-serif; font-weight: 800; fill: #ffffff; }
+                .auto-nav  { font-family: 'Montserrat', Arial, Helvetica, sans-serif; font-weight: 700; fill: #ffffff; }
+              </style>
+            </defs>
+            <text x="40" y="135" class="serge-nav" font-size="120" letter-spacing="1.2">SERGE</text>
+            <text x="40" y="215" class="auto-nav" font-size="68" letter-spacing="2">AUTO CLINIC</text>
+            <g transform="translate(640,35)">
+              <polygon points="0,0 120,0 60,200 -60,200" fill="#ffe005"/>
+              <polygon points="130,0 250,0 190,200 70,200" fill="#f97101"/>
+              <polygon points="260,0 380,0 320,200 200,200" fill="#eb0a1e"/>
+            </g>
+          </svg>
+        </a>
+        <div class="diagonal-block block-contact"><span>Contact</span></div>
         <div class="diagonal-block block-services"><span>Services</span></div>
-        <div class="diagonal-block block-contact"><span>About Us</span></div>
+        <div class="diagonal-block block-about"><span>About</span></div>
       </div>
+      <div class="nav-sentinel" aria-hidden="true"></div>
     </div>
 
     <!-- SECTION 2: MAIN CONTENT (Full Width Background) -->
@@ -109,64 +137,111 @@
         <!-- Contact Section -->
         <section class="contact reveal-on-scroll" id="contact">
           <h2>Contact Us</h2>
-          <div class="contact-details-grid">
-            <div class="contact-item">
-              <img src="img/location.png" alt="Location Pin" class="contact-icon-img">
-              <div class="contact-text">
-                <strong>Address:</strong>
-                <p>632 Gareau St, Rockland, ON K4K 1E1</p>
-              </div>
-            </div>
-            <div class="contact-item">
-              <img src="img/phone_orange.png" alt="Phone Icon" class="contact-icon-img">
-              <div class="contact-text">
-                <strong>Phone:</strong>
-                <p>+1 (613) 446-6934</p>
-              </div>
-            </div>
-            <div class="contact-item">
-              <img src="img/facebook.png" alt="Facebook Icon" class="contact-icon-img">
-              <div class="contact-text">
-                <strong>Facebook:</strong>
-                <p><a href="https://www.facebook.com/Serge-Auto-Clinic-112028178191296" target="_blank" rel="noopener noreferrer">Serge Auto Clinic on Facebook</a></p>
-              </div>
-            </div>
-          </div>
+          <div class="contact-wrapper">
+            <div class="contact-info">
+              <h3 class="contact-headline">Book an appointment by calling, messaging us on Facebook, or dropping by the shop.</h3>
+              <p class="contact-subtext">
+                Our technicians are on the floor Monday through Friday ready to inspect, diagnose, and repair.
+                Reach out however it’s easiest and we’ll keep you rolling.
+              </p>
+ 
+              <div class="contact-grid">
+                <div class="contact-tiles">
+                  <div class="contact-tile contact-tile--call">
+                    <div class="tile-body">
+                      <span class="tile-label">Talk to a Technician</span>
+                      <span class="tile-value tile-value--nowrap">+1&nbsp;(613)&nbsp;446‑6934</span>
+                    </div>
+                    <a href="tel:+1-613-446-6934" class="tile-action" aria-label="Tap to call">
+                      <span class="tile-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+                        </svg>
+                      </span>
+                      <span class="tile-cta-text">Tap to call</span>
+                    </a>
+                  </div>
 
-          <div class="contact-actions">
-            <a href="tel:+1-613-446-6934" class="contact-button button-call">
-              <img src="img/phone_orange.png" alt="Call Icon" class="button-icon-img"> Call Us Now
-            </a>
-            <a href="https://www.google.com/maps/place/632+Gareau+St,+Rockland,+ON+K4K+1E1" class="contact-button button-map" target="_blank" rel="noopener noreferrer">
-              <img src="img/location.png" alt="Map Pin Icon" class="button-icon-img"> Get Directions
-            </a>
-          </div>
-        </section>
+                  <div class="contact-tile contact-tile--map">
+                    <div class="tile-body">
+                      <span class="tile-label">Visit the Shop</span>
+                      <span class="tile-value tile-value--address">
+                        <span class="tile-address-line">632&nbsp;Gareau&nbsp;St,</span>
+                        <span class="tile-address-line">Rockland, ON</span>
+                      </span>
+                    </div>
+                    <a href="https://www.google.com/maps/place/632+Gareau+St,+Rockland,+ON+K4K+1E1" class="tile-action" target="_blank" rel="noopener noreferrer" aria-label="Open in Maps">
+                      <span class="tile-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                          <circle cx="12" cy="10" r="3" />
+                        </svg>
+                      </span>
+                      <span class="tile-cta-text">Open in Maps</span>
+                    </a>
+                  </div>
 
-        <!-- Hours Section (Moved Here) -->
-        <section class="hours reveal-on-scroll" id="hours">
-          <h2>Opening Hours</h2>
-          <div class="hours-table">
-            <div class="hours-row">
-              <span>Monday</span><span>8 AM - 5 PM</span>
-            </div>
-            <div class="hours-row">
-              <span>Tuesday</span><span>8 AM - 5 PM</span>
-            </div>
-            <div class="hours-row">
-              <span>Wednesday</span><span>8 AM - 5 PM</span>
-            </div>
-            <div class="hours-row">
-              <span>Thursday</span><span>8 AM - 5 PM</span>
-            </div>
-            <div class="hours-row">
-              <span>Friday</span><span>8 AM - 5 PM</span>
-            </div>
-            <div class="hours-row">
-              <span>Saturday</span><span>Closed</span>
-            </div>
-            <div class="hours-row">
-              <span>Sunday</span><span>Closed</span>
+                  <div class="contact-tile contact-tile--social">
+                    <div class="tile-body">
+                      <span class="tile-label">Message Us</span>
+                      <span class="tile-value tile-value--nowrap">Facebook</span>
+                    </div>
+                    <a href="https://www.facebook.com/Serge-Auto-Clinic-112028178191296" class="tile-action" target="_blank" rel="noopener noreferrer" aria-label="Connect on Facebook">
+                      <span class="tile-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg>
+                      </span>
+                      <span class="tile-cta-text">Connect</span>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="contact-meta">
+                  <div class="contact-hours-card">
+                    <div class="hours-header">
+                      <div class="hours-heading">
+                        <span class="hours-title">Shop Hours</span>
+                        <span class="hours-subtitle">Walk-ins welcome · Appointments prioritized</span>
+                      </div>
+                    </div>
+                    <ul class="hours-list">
+                      <li data-day-index="1" data-open="08:00" data-close="17:00">
+                        <span>Monday</span><span>8:00 AM – 5:00 PM</span>
+                      </li>
+                      <li data-day-index="2" data-open="08:00" data-close="17:00">
+                        <span>Tuesday</span><span>8:00 AM – 5:00 PM</span>
+                      </li>
+                      <li data-day-index="3" data-open="08:00" data-close="17:00">
+                        <span>Wednesday</span><span>8:00 AM – 5:00 PM</span>
+                      </li>
+                      <li data-day-index="4" data-open="08:00" data-close="17:00">
+                        <span>Thursday</span><span>8:00 AM – 5:00 PM</span>
+                      </li>
+                      <li data-day-index="5" data-open="08:00" data-close="17:00">
+                        <span>Friday</span><span>8:00 AM – 5:00 PM</span>
+                      </li>
+                      <li data-day-index="6" data-closed="true">
+                        <span>Saturday</span><span>Closed</span>
+                      </li>
+                      <li data-day-index="0" data-closed="true">
+                        <span>Sunday</span><span>Closed</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="contact-location-card">
+                    <div class="location-frame">
+                      <iframe
+                        src="https://www.google.com/maps?q=632+Gareau+St,+Rockland,+ON+K4K+1E1&t=k&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        aria-label="Map showing Serge Auto Clinic">
+                      </iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
