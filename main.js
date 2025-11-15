@@ -102,7 +102,45 @@ document.addEventListener('DOMContentLoaded', () => {
     navObserver.observe(navSentinel);
   }
 
-  // 5. Live hours status indicator
+  // 5. Interactive card hover effects - subtle glow tracking (desktop only)
+  // Check if device supports hover (not a touch device)
+  const supportsHover = window.matchMedia('(hover: hover)').matches;
+  
+  if (supportsHover) {
+    const glassCards = document.querySelectorAll('.card-glass');
+    
+    glassCards.forEach(card => {
+      let rafId = null;
+      
+      card.addEventListener('mousemove', (e) => {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+        }
+        
+        rafId = requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          // Calculate glow position (0-100%)
+          const glowX = (x / rect.width) * 100;
+          const glowY = (y / rect.height) * 100;
+          
+          // Only update glow position, no 3D transforms
+          card.style.setProperty('--mouse-x', `${glowX}%`);
+          card.style.setProperty('--mouse-y', `${glowY}%`);
+        });
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+        }
+      });
+    });
+  }
+
+  // 6. Live hours status indicator
   const hoursStatusEl = document.querySelector('.hours-status');
   const hoursStatusLabel = hoursStatusEl?.querySelector('.hours-status-label');
   const hoursStatusMeta = hoursStatusEl?.querySelector('.hours-status-meta');
