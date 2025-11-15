@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loader) {
             loader.classList.add('hidden');
         }
-    }, 100); // REVERTED: Back to shorter delay
+    }, 100);
   });
   
   // As a fallback, if the load event fails or takes too long, 
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loader) {
         loader.classList.add('hidden');
     }
-  }, 2000); // REDUCED: Shortened fallback timer
+  }, 2000);
 
 
   // 2. Reveal on scroll functionality

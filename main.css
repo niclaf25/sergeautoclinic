@@ -28,7 +28,58 @@ body {
     font-family: "Montserrat", sans-serif;
     overflow-x: hidden;
   }
-  
+
+.card-glass {
+    position: relative;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-glass::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    pointer-events: none;
+}
+
+.card-glass::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.3));
+    pointer-events: none;
+}
+
+.card-glass {
+    position: relative;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.service-card {
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    box-shadow: none;
+}
+
   @font-face {
     font-family: 'Montserrat';
     src: url('Fonts/Montserrat/Montserrat-VariableFont_wght.ttf');
@@ -162,12 +213,13 @@ body {
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
-  .service-card {
-    background-color: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 1rem;
-    border-radius: 8px;
-    transition: transform 0.3s;
+.service-card {
+    padding: 1.35rem 1.55rem;
+  }
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 255, 255, 0.36);
+    box-shadow: 0 42px 80px rgba(0, 0, 0, 0.6);
   }
   .service-card h3 {
     margin-bottom: 0.5rem;
@@ -176,21 +228,6 @@ body {
   .service-card p {
     color: #eee;
     line-height: 1.4;
-  }
-  
-  /* Hours Table */
-  .hours-table {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  .hours-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #555;
-  }
-  .hours-row span {
-    font-weight: 600;
   }
   
   /* About Section Paragraph */
@@ -241,10 +278,6 @@ body {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 0.9rem;
     }
-    .contact-meta {
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-    }
     .diagonal-blocks {
         top: -12vw;
         right: -12vw;
@@ -261,160 +294,175 @@ body {
   /* Max-width 768px */
   @media (max-width: 768px) {
     .header_box {
-        left: 5vw;
-        right: 5vw;
+      left: 5vw;
+      right: 5vw;
       bottom: 6vh;
     }
 
     .header {
-        max-width: 100%;
-        font-size: 13vw;
-    }
-
-    .sub_header {
-        max-width: 100%;
-        font-size: clamp(1rem, 4vw, 1.5rem);
-    }
-
-  .hero-status {
-      margin-top: 1.2rem;
-  }
-
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-    .header {
-        max-width: 100%;
-        font-size: 14vw;
-    }
-    .sub_header {
-        max-width: 100%;
-        font-size: clamp(1rem, 4vw, 1.5rem);
-    }
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-    .section_2_content {
-        padding: 1rem;
-    }
-    .service-card {
-        padding: 0.75rem;
-    }
-    .hours-table {
-        width: 100%;
-    }
-  .contact-subtext {
       max-width: 100%;
-  }
-  .contact-tiles {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-  .contact-meta {
+      font-size: 14vw;
+    }
+
+    .sub_header {
+      max-width: 100%;
+      font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+
+    .hero-status {
+      margin-top: 1.2rem;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section_2_content {
+      padding: 1rem;
+    }
+
+    .service-card {
+      padding: 0.75rem;
+    }
+
+    .contact-subtext {
+      max-width: 100%;
+    }
+
+    .contact-tiles {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    .contact-meta {
       grid-template-columns: 1fr;
       gap: 1.1rem;
-  }
-  .diagonal-blocks {
+    }
+
+    .contact-hours-card {
+      padding: 0.95rem 1.05rem;
+    }
+
+    .diagonal-blocks {
       top: -10vw;
       right: -10vw;
       width: 90vw;
       gap: 0.6vw;
       padding: 1vw;
-  }
-  .contact-subtext {
-      max-width: 100%;
-  }
-  .contact-tiles {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.8rem;
-  }
-  .contact-hours-card {
-      padding: 0.95rem 1.05rem;
-  }
-  .diagonal-block {
+    }
+
+    .diagonal-block {
       min-height: 30px;
       font-size: 3.5vw !important;
-  }
-  .diagonal-block::before,
-  .diagonal-block::after {
+    }
+
+    .diagonal-block::before,
+    .diagonal-block::after {
       display: none;
-  }
-  .diagonal-blocks.is-sticky {
+    }
+
+    .diagonal-blocks.is-sticky {
       padding: 0.7rem 1rem;
       gap: 0.6rem;
       flex-wrap: wrap;
-  }
-  .diagonal-blocks.is-sticky .diagonal-block {
+    }
+
+    .diagonal-blocks.is-sticky .diagonal-block {
       flex: 1 1 auto;
       min-width: 140px;
       padding: 0.55rem 1.1rem;
       font-size: clamp(0.85rem, 3.4vw, 0.95rem);
-  }
+    }
   }
   
+@media (max-width: 690px) {
+  .contact-tiles {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    width: 100%;
+    margin: 0;
+    gap: 0.85rem;
+    justify-items: stretch;
+  }
+
+  .contact-tile {
+    width: 100%;
+  }
+
+  .contact-hours-card,
+  .contact-location-card {
+    width: 100%;
+    margin: 0;
+  }
+}
+
   /* Max-width 600px */
   @media (max-width: 600px) {
     .header_box {
-        max-width: 100%;
+      max-width: 100%;
       bottom: 5vh;
-        left: 2.5vw;
+      left: 2.5vw;
     }
-    .diagonal-blocks {
-        top: -14vw;
-        right: -20vw;
-        width: 110vw;
-        gap: 3.8vw;
-        padding: 3.6vw 2.4vw;
-    }
-   .contact-tiles {
-       grid-template-columns: 1fr;
-       gap: 0.65rem;
-   }
-   .contact-grid {
-      gap: 1.2rem;
-  }
-   .contact-meta {
-       grid-template-columns: 1fr;
-       gap: 1rem;
-   }
-  .hero-status {
-      margin-top: 1rem;
-  }
-    .diagonal-block {
-        min-height: clamp(44px, 9vw, 68px);
-        font-size: clamp(0.95rem, 5.8vw, 1.45rem);
-        letter-spacing: 0.1em;
-    }
+
     .header {
-        max-width: 100%;
-        font-size: 14vw;
+      max-width: 100%;
+      font-size: 14vw;
     }
+
     .sub_header {
-        max-width: 100%;
-        font-size: clamp(1rem, 4vw, 1.5rem);
+      max-width: 100%;
+      font-size: clamp(1rem, 4vw, 1.5rem);
     }
+
+    .hero-status {
+      margin-top: 1rem;
+    }
+
     .services-grid {
-        grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
     }
+
     .section_2_content {
-        padding: 1rem;
+      padding: 1rem;
     }
+
     .service-card {
-        padding: 0.75rem;
+      padding: 0.75rem;
     }
-    .hours-table {
-        width: 100%;
+
+    .contact-grid {
+      gap: 1.2rem;
     }
-  .diagonal-blocks {
+
+    .contact-tiles {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+    }
+
+    .contact-meta {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .contact-hours-card {
+      padding: 0.85rem 0.95rem;
+    }
+
+    .diagonal-blocks {
       top: -10vw;
       right: -10vw;
       width: 90vw;
       gap: 0.6vw;
-  }
-  .diagonal-block {
+      padding: 3.6vw 2.4vw;
+    }
+
+    .diagonal-block {
       min-height: 30px;
       font-size: 3.5vw !important;
-  }
-  .diagonal-blocks.is-sticky {
+      letter-spacing: 0.1em;
+    }
+
+    .diagonal-blocks.is-sticky {
       top: 0.65rem;
       width: calc(100% - 1.4rem);
       left: 50%;
@@ -422,17 +470,15 @@ body {
       border-radius: 18px;
       padding: 0.7rem 1rem;
       gap: 0.6rem;
-  }
-  .diagonal-blocks.is-sticky .diagonal-block {
+    }
+
+    .diagonal-blocks.is-sticky .diagonal-block {
       width: 100%;
       flex: 1 1 100%;
       padding: 0.55rem 1.1rem;
       border-radius: 12px;
       letter-spacing: 0.12em;
-  }
-  .contact-hours-card {
-      padding: 0.85rem 0.95rem;
-  }
+    }
   }
   
   /* Max-width 480px */
@@ -727,13 +773,15 @@ body {
     margin-top: 2rem; /* Space below the intro paragraph */
   }
   
-  .team-member-card {
-    background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter than service cards for subtle difference */
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 2rem 1.5rem;
-    border-radius: 8px;
+.team-member-card {
+    padding: 2.1rem 1.8rem;
     text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+  }
+.team-member-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 255, 255, 0.36);
+    box-shadow: 0 48px 90px rgba(0, 0, 0, 0.68);
   }
   
   .team-member-card img {
@@ -809,39 +857,24 @@ body {
 
   .contact-wrapper {
     max-width: 1120px;
+    width: 100%;
     margin: 0 auto;
-    padding: 0 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 2.5rem;
-    align-items: start;
-    justify-items: center;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(2rem, 4vw, 2.8rem);
   }
 
   .contact-info {
-    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 980px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     align-items: center;
+    gap: 1.1rem;
     text-align: center;
-    max-width: 980px;
-    width: 100%;
-  }
-
-  .contact-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.3rem 0.9rem;
-    border-radius: 999px;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    background: rgba(255, 224, 5, 0.08);
-    border: 1px solid rgba(255, 224, 5, 0.25);
-    color: rgba(255, 224, 5, 0.85);
-    align-self: center;
+    padding: 0 clamp(1.5rem, 5vw, 3rem);
   }
 
   .contact-subtext {
@@ -849,159 +882,52 @@ body {
     color: rgba(214, 214, 214, 0.78);
     max-width: 38ch;
     line-height: 1.6;
-    text-align: center;
   }
 
-.contact-grid {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 1.6rem;
-}
+  .contact-grid {
+    width: 100%;
+    display: grid;
+    gap: clamp(1.6rem, 3vw, 2.2rem);
+    padding: 0 clamp(1.5rem, 5vw, 3rem);
+  }
 
-.contact-tiles {
-  display: grid;
+  .contact-tiles {
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 0.85rem;
-    margin-top: 0.2rem;
+    gap: clamp(0.85rem, 2vw, 1.2rem);
+    padding: 0;
   }
 
-.contact-meta {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.6rem;
-  align-items: stretch;
-}
- 
- .contact-tile {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-  justify-content: flex-start;
-   gap: 0.65rem;
-   padding: 1rem 1.1rem;
-   border-radius: 14px;
-   border: 1px solid rgba(255, 255, 255, 0.06);
-   background: rgba(28, 28, 28, 0.68);
-   text-decoration: none;
-   color: inherit;
-   text-align: center;
-   transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
-  --tile-action-bg: rgba(255, 255, 255, 0.12);
-  --tile-action-hover-bg: rgba(255, 255, 255, 0.18);
-  --tile-icon-color: rgba(255, 255, 255, 0.92);
-  --tile-cta-color: rgba(255, 255, 255, 0.68);
- }
- 
- .contact-tile .tile-body {
-   display: flex;
-   flex-direction: column;
-   gap: 0.2rem;
-   align-items: center;
-  flex-grow: 1;
-  justify-content: center;
- }
- 
- .tile-label {
-   font-size: 0.66rem;
-   letter-spacing: 0.16em;
-   text-transform: uppercase;
-   color: rgba(255, 255, 255, 0.55);
- }
- 
- .tile-value {
-   font-size: 0.93rem;
-   font-weight: 600;
-   color: rgba(255, 255, 255, 0.9);
- }
- 
- .tile-value--nowrap {
-   white-space: nowrap;
- }
+  .contact-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.4rem, 2.5vw, 1.8rem);
+    align-items: stretch;
+    padding: 0;
+  }
 
-.tile-value--address {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.05rem;
-  line-height: 1.4;
-  text-align: center;
-}
-
-.tile-address-line {
-  white-space: nowrap;
-}
-
-.tile-action {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  min-width: 92px;
-  padding: 0.75rem 0.85rem;
-  border-radius: 14px;
-  background: var(--tile-action-bg);
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  margin-top: auto;
-  padding-top: 0.6rem;
-  color: var(--tile-icon-color);
-  text-decoration: none;
-}
-
-.tile-action:hover {
-  transform: translateY(-2px);
-  background: var(--tile-action-hover-bg);
-}
-
-.contact-tile .tile-icon {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  color: var(--tile-icon-color);
-}
-
-.contact-tile .tile-icon svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 2;
-}
- 
- .tile-cta-text {
-   font-size: 0.68rem;
-   letter-spacing: 0.2em;
-   text-transform: uppercase;
-  color: var(--tile-cta-color);
-  display: block;
-}
-
-.contact-tile--call {
-  --tile-action-bg: rgba(235, 10, 30, 0.22);
-  --tile-action-hover-bg: rgba(235, 10, 30, 0.3);
-  --tile-icon-color: #ffffff;
-  --tile-cta-color: rgba(255, 233, 213, 0.86);
-}
-
-.contact-tile--map {
-  --tile-action-bg: rgba(249, 113, 1, 0.22);
-  --tile-action-hover-bg: rgba(249, 113, 1, 0.3);
-  --tile-icon-color: #ffffff;
-  --tile-cta-color: rgba(255, 236, 212, 0.86);
-}
-
-.contact-tile--social {
-  --tile-action-bg: rgba(59, 89, 152, 0.3);
-  --tile-action-hover-bg: rgba(59, 89, 152, 0.38);
-  --tile-icon-color: #ffffff;
-  --tile-cta-color: rgba(210, 223, 255, 0.86);
-}
-
-  .contact-tile .tile-icon img {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
+  .contact-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.65rem;
+    padding: 1.1rem 1.35rem;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    --tile-action-bg: rgba(255, 255, 255, 0.12);
+    --tile-action-hover-bg: rgba(255, 255, 255, 0.2);
+    --tile-icon-color: rgba(255, 255, 255, 0.92);
+    --tile-cta-color: rgba(255, 255, 255, 0.72);
+    box-sizing: border-box;
+  }
+  .contact-tile:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 38px 72px rgba(0, 0, 0, 0.58);
   }
 
   .contact-tile .tile-body {
@@ -1009,6 +935,8 @@ body {
     flex-direction: column;
     gap: 0.2rem;
     align-items: center;
+    flex-grow: 1;
+    justify-content: center;
   }
 
   .tile-label {
@@ -1023,48 +951,104 @@ body {
     font-weight: 600;
     color: rgba(255, 255, 255, 0.9);
   }
- 
- .tile-value--nowrap {
-   white-space: nowrap;
- }
 
-.tile-value--address {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.05rem;
-  line-height: 1.4;
-  text-align: center;
-}
+  .tile-value--nowrap {
+    white-space: nowrap;
+  }
 
-.tile-address-line {
-  white-space: nowrap;
-}
-
-  .tile-cta {
+  .tile-value--address {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0.05rem;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .tile-address-line {
+    white-space: nowrap;
+  }
+
+  .tile-action {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 0.35rem;
+    min-width: 92px;
+    padding: 0.85rem 1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: var(--tile-action-bg);
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    margin-top: auto;
+    padding-top: 0.85rem;
+    color: var(--tile-icon-color);
+    text-decoration: none;
+  }
+
+  .tile-action:hover {
+    transform: translateY(-2px);
+    background: var(--tile-action-hover-bg);
+    border-color: rgba(255, 255, 255, 0.26);
+  }
+
+  .tile-action:hover {
+    transform: translateY(-2px);
+    background: var(--tile-action-hover-bg);
+  }
+
+  .contact-tile .tile-icon {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    color: var(--tile-icon-color);
+  }
+
+  .contact-tile .tile-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
   }
 
   .tile-cta-text {
     font-size: 0.68rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--tile-cta-color);
+    display: block;
   }
 
+  .contact-tile--call {
+    --tile-action-bg: rgba(235, 10, 30, 0.22);
+    --tile-action-hover-bg: rgba(235, 10, 30, 0.3);
+    --tile-icon-color: #ffffff;
+    --tile-cta-color: rgba(255, 233, 213, 0.86);
+  }
 
-.contact-hours-card {
+  .contact-tile--map {
+    --tile-action-bg: rgba(249, 113, 1, 0.22);
+    --tile-action-hover-bg: rgba(249, 113, 1, 0.3);
+    --tile-icon-color: #ffffff;
+    --tile-cta-color: rgba(255, 236, 212, 0.86);
+  }
+
+  .contact-tile--social {
+    --tile-action-bg: rgba(59, 89, 152, 0.3);
+    --tile-action-hover-bg: rgba(59, 89, 152, 0.38);
+    --tile-icon-color: #ffffff;
+    --tile-cta-color: rgba(210, 223, 255, 0.86);
+  }
+
+  .contact-hours-card {
     margin: 0;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 1.4rem 1.6rem 1rem;
-    background: rgba(22, 22, 22, 0.82);
+    padding: 1.45rem 1.7rem 1.1rem;
     display: flex;
     flex-direction: column;
     gap: 0.45rem;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .hours-header {
@@ -1081,10 +1065,10 @@ body {
     gap: 0.3rem;
     text-align: center;
     align-items: center;
-  margin-bottom: 1.15rem;
+    margin-bottom: 1.15rem;
   }
 
-.hours-title {
+  .hours-title {
     font-size: 0.95rem;
     letter-spacing: 0.32em;
     text-transform: uppercase;
@@ -1098,92 +1082,92 @@ body {
     margin: 0;
   }
 
-.hours-status {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: flex-start;
-  gap: 1.05rem;
-  padding: 0.95rem 1.3rem;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.34);
-  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
-}
+  .hours-status {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: flex-start;
+    gap: 1.05rem;
+    padding: 0.95rem 1.3rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 22px 40px rgba(0, 0, 0, 0.34);
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+  }
 
-.hours-status.is-open {
-  background: rgba(65, 207, 136, 0.18);
-  border-color: rgba(74, 214, 138, 0.42);
-  color: rgba(223, 255, 236, 0.95);
-  box-shadow: 0 12px 28px rgba(74, 214, 138, 0.18);
-}
+  .hours-status.is-open {
+    background: rgba(65, 207, 136, 0.18);
+    border-color: rgba(74, 214, 138, 0.42);
+    color: rgba(223, 255, 236, 0.95);
+    box-shadow: 0 12px 28px rgba(74, 214, 138, 0.18);
+  }
 
-.hours-status.is-closed {
-  background: rgba(235, 10, 30, 0.14);
-  border-color: rgba(235, 10, 30, 0.36);
-  color: rgba(255, 226, 229, 0.9);
-  box-shadow: none;
-}
+  .hours-status.is-closed {
+    background: rgba(235, 10, 30, 0.14);
+    border-color: rgba(235, 10, 30, 0.36);
+    color: rgba(255, 226, 229, 0.9);
+    box-shadow: none;
+  }
 
-.hours-status-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.45);
-  box-shadow: 0 0 14px rgba(255, 255, 255, 0.45);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-  transition: background 0.25s ease, box-shadow 0.25s ease;
-}
+  .hours-status-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.45);
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+  }
 
-.hours-status.is-open .hours-status-dot {
-  background: #4cff92;
-  box-shadow: 0 0 16px rgba(76, 255, 146, 0.75);
-}
+  .hours-status.is-open .hours-status-dot {
+    background: #4cff92;
+    box-shadow: 0 0 16px rgba(76, 255, 146, 0.75);
+  }
 
-.hours-status.is-closed .hours-status-dot {
-  background: #ff5b6b;
-  box-shadow: 0 0 16px rgba(255, 91, 107, 0.75);
-}
+  .hours-status.is-closed .hours-status-dot {
+    background: #ff5b6b;
+    box-shadow: 0 0 16px rgba(255, 91, 107, 0.75);
+  }
 
-.hours-status-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  text-align: left;
-}
+  .hours-status-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: left;
+  }
 
-.hours-status-label {
-  font-size: 0.88rem;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  font-weight: 700;
-}
+  .hours-status-label {
+    font-size: 0.88rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
 
-.hours-status-meta {
-  font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.8);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
+  .hours-status-meta {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
 
-.hours-status.is-open .hours-status-meta {
-  color: rgba(223, 255, 236, 0.9);
-}
+  .hours-status.is-open .hours-status-meta {
+    color: rgba(223, 255, 236, 0.9);
+  }
 
-.hours-status.is-closed .hours-status-meta {
-  color: rgba(255, 226, 229, 0.85);
-}
+  .hours-status.is-closed .hours-status-meta {
+    color: rgba(255, 226, 229, 0.85);
+  }
 
-.hours-list {
-  list-style: none;
-  margin: 0;
-  padding: 0 0 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.28rem;
-}
+  .hours-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+  }
 
   .hours-list li {
     display: flex;
@@ -1226,7 +1210,7 @@ body {
     font-weight: 500;
   }
 
-.contact-location-card {
+  .contact-location-card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1236,18 +1220,19 @@ body {
     box-shadow: none;
     border-radius: 0;
     height: 100%;
+    box-sizing: border-box;
   }
 
-.location-frame {
-    position: relative;
+  .location-frame {
     width: 100%;
     flex: 1 1 auto;
     height: 100%;
-  min-height: 0;
-  margin: 0;
-    border-radius: 16px;
+    min-height: 0;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.45);
     overflow: hidden;
-    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.32);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   }
 
   .location-frame iframe {
@@ -1256,9 +1241,39 @@ body {
     width: 100%;
     height: 100%;
     border: 0;
-  margin: 0;
+    margin: 0;
+    border-radius: inherit;
     filter: grayscale(10%) saturate(110%);
+    z-index: 0;
   }
+  
+  @media (max-width: 840px) {
+    .contact-meta {
+      grid-template-columns: 1fr;
+    width: min(520px, 100%);
+    margin: 0 auto;
+    justify-items: stretch;
+    }
+
+  .contact-hours-card,
+  .contact-location-card {
+    width: 100%;
+    margin: 0;
+  }
+
+    .location-frame {
+    width: 100%;
+    min-height: clamp(280px, 48vh, 440px);
+    }
+  }
+
+@media (max-width: 540px) {
+  .contact-hours-card,
+  .contact-location-card {
+    width: 100%;
+    margin: 0;
+  }
+}
 
   
   /* === INTERACTIVITY & ANIMATIONS === */
@@ -1308,19 +1323,5 @@ body.page-loaded .hero-location {
       box-shadow: 0 8px 15px rgba(0,0,0,0.2);
     }
 
-    .contact-text p a:hover {
-      color: #ffcc00;
-      text-decoration: underline;
-    }
-
-    .button-call:hover {
-      background-color: #e6b800;
-      transform: translateY(-2px);
-    }
-
-    .button-map:hover {
-      background-color: #e06500;
-      transform: translateY(-2px);
-    }
   }
   
