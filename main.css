@@ -32,6 +32,13 @@ body {
     overflow-x: hidden;
   }
 
+  /* Scroll lock for letter reveal */
+  body.scroll-locked {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
 a[href^="tel"] {
   color: inherit;
   text-decoration: none;
@@ -730,6 +737,27 @@ a[href^="tel"] {
     transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
   }
 
+  /* Scroll reveal text - letter by letter animation */
+  .scroll-reveal-text {
+    min-height: 3em;
+  }
+
+  .scroll-reveal-text .letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+  }
+
+  .scroll-reveal-text .letter.revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .scroll-reveal-text .letter.space {
+    width: 0.25em;
+  }
+
 .hero-status {
   margin-top: 1.6rem;
   max-width: min(420px, 80vw);
@@ -764,7 +792,23 @@ a[href^="tel"] {
     padding: 3rem 0;
     margin: 0;
     text-align: center;
-    scroll-margin-top: clamp(6rem, 14vh, 9rem);
+    scroll-margin-top: clamp(2rem, 4vh, 3rem);
+  }
+
+  /* Override for services and contact sections - add large gaps */
+  #about {
+    padding-top: 16rem !important;
+    scroll-margin-top: -9rem !important;
+  }
+
+  #services {
+    margin-top: 20rem !important;
+    scroll-margin-top: 4rem !important;
+  }
+
+  #contact {
+    margin-top: 20rem !important;
+    scroll-margin-top: 4rem !important;
   }
   
   .about h2,
@@ -923,6 +967,7 @@ a[href^="tel"] {
 
     .contact-hours-card {
       padding: 0.95rem 1.05rem;
+      margin-bottom: 6rem;
     }
 
     .diagonal-blocks {
@@ -1000,6 +1045,25 @@ a[href^="tel"] {
       margin-top: 1rem;
     }
 
+    #about, #services, #contact, .hours {
+      scroll-margin-top: 0;
+    }
+
+    #about {
+      padding-top: 12rem !important;
+      scroll-margin-top: -12rem !important;
+    }
+
+    #services {
+      margin-top: 12rem !important;
+      scroll-margin-top: -4rem !important;
+    }
+
+    #contact {
+      margin-top: 12rem !important;
+      scroll-margin-top: -4rem !important;
+    }
+
     .services-grid {
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 1.5rem;
@@ -1029,6 +1093,7 @@ a[href^="tel"] {
 
     .contact-hours-card {
       padding: 0.85rem 0.95rem;
+      margin-bottom: 5rem;
     }
 
     .diagonal-blocks {
@@ -1073,6 +1138,24 @@ a[href^="tel"] {
   }
   .hero-status {
       margin-top: 0.9rem;
+  }
+  #about, #services, #contact, .hours {
+    scroll-margin-top: 0;
+  }
+  #about {
+    padding-top: 9rem !important;
+    scroll-margin-top: -9rem !important;
+  }
+  #services {
+    margin-top: 10rem !important;
+    scroll-margin-top: -3.5rem !important;
+  }
+  #contact {
+    margin-top: 10rem !important;
+    scroll-margin-top: -3rem !important;
+  }
+  .contact-hours-card {
+    margin-bottom: 4rem;
   }
   .diagonal-blocks {
       top: 0;
@@ -1677,7 +1760,7 @@ a[href^="tel"] {
   }
 
   .contact-hours-card {
-    margin: 0;
+    margin: 0 0 8rem 0;
     padding: 1.45rem 1.7rem 1.1rem;
     display: flex;
     flex-direction: column;
@@ -1873,7 +1956,8 @@ a[href^="tel"] {
 
   /* Page Load-in Animations */
   body.page-loaded .header,
-  body.page-loaded .sub_header {
+  body.page-loaded .sub_header,
+  body.page-loaded .scroll-reveal-text {
     opacity: 1;
     transform: translateY(0);
   }

@@ -2,8 +2,13 @@
  * Main JavaScript file for Serge Auto Clinic Website
  * Handles:
  * 1. Page load-in animation.
- * 2. Revealing content sections on scroll.
- * 3. Smooth-scrolling for navigation links.
+ * 2. Scroll-locked letter-by-letter text reveal.
+ * 3. Revealing content sections on scroll.
+ * 4. Smooth-scrolling for navigation links.
+ * 5. Sticky navigation transformation.
+ * 6. Interactive card hover effects.
+ * 7. Service card expand/collapse functionality.
+ * 8. Live hours status indicator.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,7 +39,110 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 2000);
 
 
-  // 2. Reveal on scroll functionality
+  // 2. Scroll-locked letter-by-letter text reveal
+  const scrollRevealText = document.getElementById('scrollRevealText');
+  
+  if (scrollRevealText) {
+    const textContent = scrollRevealText.getAttribute('data-text');
+    const letters = [];
+    let currentLetterIndex = 0;
+    let scrollAccumulator = 0;
+    let isScrollLocked = true;
+    let lastScrollTime = Date.now();
+    
+    // Split text into individual letters and spaces
+    textContent.split('').forEach((char, index) => {
+      const span = document.createElement('span');
+      span.className = 'letter' + (char === ' ' ? ' space' : '');
+      span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space
+      scrollRevealText.appendChild(span);
+      letters.push(span);
+    });
+    
+    // Lock scroll initially
+    const lockScroll = () => {
+      document.body.classList.add('scroll-locked');
+      document.body.style.top = `-${window.scrollY}px`;
+    };
+    
+    // Unlock scroll
+    const unlockScroll = () => {
+      const scrollY = document.body.style.top;
+      document.body.classList.remove('scroll-locked');
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      isScrollLocked = false;
+    };
+    
+    // Reveal letters progressively
+    const revealLetters = (count) => {
+      for (let i = 0; i < count && currentLetterIndex < letters.length; i++) {
+        letters[currentLetterIndex].classList.add('revealed');
+        currentLetterIndex++;
+      }
+      
+      // Unlock scroll when all letters are revealed
+      if (currentLetterIndex >= letters.length) {
+        setTimeout(() => {
+          unlockScroll();
+        }, 300); // Small delay after last letter
+      }
+    };
+    
+    // Handle scroll attempts
+    const handleScrollAttempt = (event) => {
+      if (!isScrollLocked) return;
+      
+      event.preventDefault();
+      
+      const currentTime = Date.now();
+      const timeDelta = currentTime - lastScrollTime;
+      lastScrollTime = currentTime;
+      
+      // Calculate scroll speed (faster scroll = more letters at once)
+      let scrollDelta = 0;
+      if (event.type === 'wheel') {
+        scrollDelta = Math.abs(event.deltaY);
+      } else if (event.type === 'touchmove') {
+        scrollDelta = 50; // Base value for touch
+      }
+      
+      // Speed multiplier: faster scroll reveals more letters
+      // But even slow scroll should be pretty fast (minimum 2-3 letters per scroll)
+      const speedMultiplier = Math.max(1, scrollDelta / 30);
+      const lettersToReveal = Math.ceil(2 * speedMultiplier); // Minimum 2 letters
+      
+      scrollAccumulator += scrollDelta;
+      
+      // Reveal letters based on accumulated scroll
+      if (scrollAccumulator > 10) {
+        revealLetters(lettersToReveal);
+        scrollAccumulator = 0;
+      }
+    };
+    
+    // Wait for page to load before locking
+    setTimeout(() => {
+      if (document.body.classList.contains('page-loaded')) {
+        lockScroll();
+        
+        // Add event listeners
+        window.addEventListener('wheel', handleScrollAttempt, { passive: false });
+        window.addEventListener('touchmove', handleScrollAttempt, { passive: false });
+        
+        // Arrow keys and spacebar support
+        window.addEventListener('keydown', (event) => {
+          if (isScrollLocked && ['ArrowDown', 'ArrowUp', 'Space', ' '].includes(event.key)) {
+            event.preventDefault();
+            revealLetters(3);
+          }
+        });
+      }
+    }, 500); // Wait for initial page animations
+  }
+
+
+  // 3. Reveal on scroll functionality
   const revealElements = document.querySelectorAll('.reveal-on-scroll');
 
   const observerOptions = {
@@ -57,14 +165,37 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
   
-  // 3. Navigation smooth-scrolling
+  // 4. Navigation smooth-scrolling
   const smoothScroll = (selector, targetId) => {
     const element = document.querySelector(selector);
     if (element) {
       element.addEventListener('click', (event) => {
         event.preventDefault();
+        
+        // Close any expanded service cards before navigating
+        const expandedCards = document.querySelectorAll('.service-card.is-expanded');
+        const expandedContainer = document.querySelector('.services-expanded-container');
+        
+        if (expandedCards.length > 0) {
+          expandedCards.forEach(card => {
+            card.classList.remove('is-expanded');
+          });
+        }
+        
+        if (expandedContainer) {
+          expandedContainer.innerHTML = '';
+        }
+        
+        // Force a reflow to ensure layout is recalculated
+        void document.body.offsetHeight;
+        
         const target = document.getElementById(targetId);
         if (target) {
+          // Ensure reveal-on-scroll animation is complete if target has it
+          if (target.classList.contains('reveal-on-scroll') && !target.classList.contains('is-visible')) {
+            target.classList.add('is-visible');
+          }
+          
           target.scrollIntoView({ behavior: 'smooth' });
         }
       });
@@ -77,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
   smoothScroll('.block-services', 'services');
   smoothScroll('.block-about', 'about');
 
-  // 4. Transform diagonal blocks into sticky navigation after hero
+  // 5. Transform diagonal blocks into sticky navigation after hero
   const diagonalBlocks = document.querySelector('.diagonal-blocks');
   const navSentinel = document.querySelector('.nav-sentinel');
 
@@ -102,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navObserver.observe(navSentinel);
   }
 
-  // 5. Interactive card hover effects - subtle glow tracking (desktop only)
+  // 6. Interactive card hover effects - subtle glow tracking (desktop only)
   // Check if device supports hover (not a touch device)
   const supportsHover = window.matchMedia('(hover: hover)').matches;
   
@@ -140,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. Service card expand/collapse functionality
+  // 7. Service card expand/collapse functionality
   const serviceCards = document.querySelectorAll('.service-card');
   const servicesGrid = document.querySelector('.services-grid');
   
@@ -282,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 7. Live hours status indicator
+  // 8. Live hours status indicator
   const hoursStatusEl = document.querySelector('.hours-status');
   const hoursStatusLabel = hoursStatusEl?.querySelector('.hours-status-label');
   const hoursStatusMeta = hoursStatusEl?.querySelector('.hours-status-meta');
