@@ -1067,8 +1067,8 @@ a[href^="tel"] {
   /* Max-width 480px */
   @media (max-width: 480px) {
 .header_box {
-    bottom: 4vh;
-    left: 5vw;
+    bottom: 1.5vh;
+    left: 1.5vw;
     right: 5vw;
   }
   .hero-status {
@@ -1633,6 +1633,28 @@ a[href^="tel"] {
     display: block;
   }
 
+  /* Tile actions group for multiple buttons */
+  .tile-actions-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+    width: 100%;
+  }
+
+  .tile-actions-group .tile-action {
+    flex: 1;
+    min-width: 0;
+    margin-top: 0;
+  }
+
+  /* Mobile: Stack buttons vertically on very small screens */
+  @media (max-width: 380px) {
+    .tile-actions-group {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
   .contact-tile--call {
     --tile-action-bg: rgba(235, 10, 30, 0.22);
     --tile-action-hover-bg: rgba(235, 10, 30, 0.3);
@@ -1794,12 +1816,12 @@ a[href^="tel"] {
     border-radius: 12px;
     font-size: 0.98rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.84);
+    color: #ffffff;
     transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
   }
 
   .hours-list li span:first-child {
-    color: rgba(255, 255, 255, 0.68);
+    color: #ffffff;
   }
 
   .hours-list li.is-today {
@@ -1814,16 +1836,16 @@ a[href^="tel"] {
 
   .hours-list li.is-today span:first-child,
   .hours-list li.is-today span:last-child {
-    color: rgba(255, 255, 255, 0.94);
+    color: #ffffff;
   }
 
   .hours-list li.is-open-now span:last-child {
-    color: rgba(216, 255, 234, 0.95);
+    color: #ffffff;
   }
 
   .hours-list li[data-closed="true"] span:last-child {
-    color: rgba(255, 178, 178, 0.85);
-    font-weight: 500;
+    color: #eb0a1e;
+    font-weight: 400;
   }
 
   
@@ -1867,13 +1889,11 @@ body.page-loaded .hero-location {
 
   /* Reveal on Scroll Animation */
   .reveal-on-scroll {
-    opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: transform 0.8s ease-out;
   }
 
   .reveal-on-scroll.is-visible {
-    opacity: 1;
     transform: translateY(0);
   }
 
