@@ -1,3 +1,6 @@
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 /* === LOADER STYLES === */
 #loader {
     position: fixed;
@@ -101,33 +104,36 @@ a[href^="tel"] {
     z-index: 1;
 }
 
-.card-glass:hover {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0.07) 100%
-    );
-    box-shadow: 
-      0 24px 72px 0 rgba(0, 0, 0, 0.6),
-      0 4px 16px 0 rgba(0, 0, 0, 0.4),
-      inset 0 3px 3px 0 rgba(255, 255, 255, 0.25),
-      inset 0 -2px 2px 0 rgba(0, 0, 0, 0.15),
-      0 0 40px rgba(255, 255, 255, 0.2);
-}
+/* Only apply card-glass hover on devices with hover capability */
+@media (hover: hover) and (pointer: fine) {
+  .card-glass:hover:not(.service-card.is-expanded) {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.07) 100%
+      );
+      box-shadow: 
+        0 24px 72px 0 rgba(0, 0, 0, 0.6),
+        0 4px 16px 0 rgba(0, 0, 0, 0.4),
+        inset 0 3px 3px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -2px 2px 0 rgba(0, 0, 0, 0.15),
+        0 0 40px rgba(255, 255, 255, 0.2);
+  }
 
-.card-glass:hover::before {
-    opacity: 1;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.7) 0%,
-      rgba(255, 255, 255, 0.15) 30%,
-      rgba(255, 255, 255, 0.08) 70%,
-      rgba(255, 255, 255, 0.5) 100%
-    );
-}
+  .card-glass:hover:not(.service-card.is-expanded)::before {
+      opacity: 1;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.7) 0%,
+        rgba(255, 255, 255, 0.15) 30%,
+        rgba(255, 255, 255, 0.08) 70%,
+        rgba(255, 255, 255, 0.5) 100%
+      );
+  }
 
-.card-glass:hover::after {
-    opacity: 0.7;
+  .card-glass:hover:not(.service-card.is-expanded)::after {
+      opacity: 0.7;
+  }
 }
 
 .card-glass > * {
@@ -151,7 +157,10 @@ a[href^="tel"] {
 }
 
 .service-card {
-    padding: 1.5rem 1.8rem;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: fit-content;
     box-shadow: none;
     background: linear-gradient(
       135deg,
@@ -159,15 +168,447 @@ a[href^="tel"] {
       rgba(255, 179, 56, 0.08) 100%
     );
     border-color: rgba(249, 113, 1, 0.3);
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
-.service-card:hover {
+
+/* Compact service card */
+.service-card-compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(0.6rem, 1.5vw, 1.25rem) clamp(0.8rem, 2vw, 1.5rem);
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Only apply hover on devices that support hover */
+@media (hover: hover) and (pointer: fine) {
+  .service-card-compact:hover {
+    background: rgba(249, 113, 1, 0.08);
+  }
+}
+
+/* Touch feedback for mobile - brief and doesn't stick */
+@media (hover: hover) and (pointer: fine) {
+  .service-card-compact:active {
+    background: rgba(249, 113, 1, 0.05);
+  }
+}
+
+/* Ensure no background persists on mobile when not expanded */
+@media (max-width: 448px) {
+  /* Override the expanded state background on mobile */
+  .service-card.is-expanded .service-card-compact {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: none !important;
+  }
+  
+  .service-card:not(.is-expanded) .service-card-compact {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .service-card-compact,
+  .service-card-compact:focus,
+  .service-card-compact:active,
+  .service-card-compact:hover,
+  .service-card-compact:visited {
+    background: transparent !important;
+    outline: none !important;
+  }
+  
+  /* Force remove all hover/active states from the card itself */
+  .service-card:not(.is-expanded),
+  .service-card:not(.is-expanded):hover,
+  .service-card:not(.is-expanded):active,
+  .service-card:not(.is-expanded):focus {
     background: linear-gradient(
       135deg,
-      rgba(249, 113, 1, 0.22) 0%,
+      rgba(249, 113, 1, 0.15) 0%,
+      rgba(255, 179, 56, 0.08) 100%
+    ) !important;
+    border-color: rgba(249, 113, 1, 0.3) !important;
+  }
+}
+
+.service-card-compact h3 {
+    margin: 0;
+    padding: 0;
+    font-size: clamp(0.9rem, 2vw, 1.3rem);
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 1 auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: -0.01em;
+    transform: translateY(2px);
+}
+
+.expand-arrow {
+    width: clamp(14px, 2vw, 20px);
+    height: clamp(14px, 2vw, 20px);
+    flex-shrink: 0;
+    color: #fff;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+    display: flex;
+    align-items: center;
+    align-self: center;
+}
+
+.expand-arrow path {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service-card-compact:hover h3 {
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.9),
+                 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+
+  .service-card-compact:hover .expand-arrow {
+    opacity: 1;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9))
+            drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+  }
+}
+
+/* Expanded card structure */
+.service-card-expanded {
+    display: none;
+}
+
+.service-card.is-expanded {
+    /* Keep card in its normal grid position */
+    position: relative;
+    z-index: 100;
+}
+
+/* Above 448px: keep expanded content hidden within the card (it shows in external container) */
+@media (min-width: 449px) {
+  .service-card.is-expanded .service-card-expanded {
+    display: none;
+  }
+}
+
+.service-card.is-expanded .service-card-compact {
+    /* Keep it visible - add active state styling */
+    background: linear-gradient(
+      135deg,
+      rgba(249, 113, 1, 0.2) 0%,
       rgba(255, 179, 56, 0.12) 100%
     );
-    border-color: rgba(249, 113, 1, 0.5);
+    border: 2px solid rgba(249, 113, 1, 0.5);
+    box-shadow: 
+      0 0 30px rgba(249, 113, 1, 0.4),
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 2px 2px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 28px;
+    backdrop-filter: blur(28px);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Change + icon to - icon when expanded */
+.service-card.is-expanded .expand-arrow path:last-child {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+
+/* Make the minus icon glow when expanded */
+.service-card.is-expanded .expand-arrow {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(249, 113, 1, 0.8))
+            drop-shadow(0 0 16px rgba(249, 113, 1, 0.5));
+}
+
+/* Container for expanded content below grid */
+.services-expanded-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.services-expanded-container .service-card-expanded {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 500px;
+    animation: fadeInExpand 0.25s ease forwards;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    background: linear-gradient(
+      135deg,
+      rgba(249, 113, 1, 0.15) 0%,
+      rgba(255, 179, 56, 0.08) 100%
+    );
+    border: 1.5px solid rgba(249, 113, 1, 0.3);
+    border-radius: 28px;
+    backdrop-filter: blur(28px);
+    box-shadow: 
+      0 16px 48px rgba(0, 0, 0, 0.5),
+      0 4px 12px rgba(0, 0, 0, 0.3),
+      inset 0 2px 2px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInExpand {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Clickable header area */
+.service-expanded-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1.5rem 2rem;
+    border-bottom: 2px solid rgba(249, 113, 1, 0.3);
+    cursor: pointer;
+    gap: 1.2rem;
+    flex-shrink: 0;
+    transition: background 0.3s ease;
+}
+
+.service-expanded-header:hover {
+    background: rgba(249, 113, 1, 0.05);
+}
+
+.service-expanded-header h3 {
+    margin: 0;
+    font-size: 2rem;
+    color: #ffcc00;
+}
+
+.service-close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-right: 1rem;
+    flex-shrink: 0;
+    opacity: 0.8;
+    stroke-width: 2.5;
+}
+
+.service-close-btn:hover,
+.service-expanded-header:hover .service-close-btn {
+    opacity: 1;
+    transform: scale(1.6);
+    filter: drop-shadow(0 0 16px rgba(249, 113, 1, 1))
+            drop-shadow(0 0 24px rgba(249, 113, 1, 0.8))
+            drop-shadow(0 0 32px rgba(249, 113, 1, 0.6))
+            drop-shadow(0 0 40px rgba(249, 113, 1, 0.4));
+    stroke-width: 3.5;
+}
+
+.service-close-btn:active {
+    transform: scale(1.3);
+}
+
+/* Content area */
+.service-expanded-content {
+    padding: 2rem;
+    color: #eee;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.service-intro {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.service-details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.8rem;
+}
+
+.service-details-list li {
+    padding: 0.8rem 1.2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border-left: 3px solid rgba(249, 113, 1, 0.6);
+    transition: all 0.3s ease;
+}
+
+.service-details-list li:hover {
+    background: rgba(249, 113, 1, 0.15);
+    border-left-color: rgba(249, 113, 1, 0.9);
+    transform: translateX(4px);
+}
+
+/* Service item with heading and description */
+.service-item {
+    margin-bottom: 3rem;
+    padding: 0;
+}
+
+.service-item:last-child {
+    margin-bottom: 0;
+}
+
+.service-item h4 {
+    margin: 0 0 0.8rem 0;
+    color: #ffcc00;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.service-item p {
+    margin: 0;
+    color: #ddd;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Responsive adjustments for expanded cards */
+@media (max-width: 768px) {
+  .services-expanded-container {
+    width: calc(100% - 3rem);
+  }
+  
+  .service-expanded-header {
+    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+  }
+  
+  .service-expanded-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .service-expanded-content {
+    padding: 1.5rem;
+  }
+  
+  .service-close-btn {
+    width: 28px;
+    height: 28px;
+    margin-right: 0.8rem;
+  }
+  
+  .service-details-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .service-item {
+    margin-bottom: 2.5rem;
+  }
+  
+  .service-item h4 {
+    font-size: 1.1rem;
+  }
+  
+  .services-expanded-container {
+    margin: 1.5rem auto 0;
+  }
+  
+  .services-expanded-container .service-card-expanded {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 448px) {
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem;
+    justify-items: stretch;
+  }
+  
+  .service-card {
+    max-width: 100% !important;
+    width: 100%;
+  }
+  
+  /* Hide the external expanded container on mobile */
+  .services-expanded-container {
+    display: none !important;
+  }
+  
+  /* Show expanded content in place within the card */
+  .service-card.is-expanded .service-card-compact {
+    display: none;
+  }
+  
+  .service-card.is-expanded .service-card-expanded {
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+    padding: 0;
+  }
+  
+  .service-expanded-header {
+    padding: 1.2rem 1.2rem 1rem 1.2rem;
+    gap: 0.8rem;
+  }
+  
+  .service-expanded-header h3 {
+    font-size: 1.3rem;
+  }
+  
+  .service-expanded-content {
+    padding: 1.2rem;
+  }
+  
+  .service-close-btn {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.6rem;
+  }
+  
+  .service-intro {
+    font-size: 1rem;
+  }
+  
+  .service-item {
+    margin-bottom: 2rem;
+  }
+  
+  .service-item h4 {
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .service-item p {
+    font-size: 0.95rem;
+  }
+  
 }
 
 .service-card::before {
@@ -190,14 +631,26 @@ a[href^="tel"] {
     );
 }
 
-.service-card:hover::before {
-    background: linear-gradient(
-      135deg,
-      rgba(249, 113, 1, 0.9) 0%,
-      rgba(255, 179, 56, 0.4) 30%,
-      rgba(255, 179, 56, 0.2) 70%,
-      rgba(249, 113, 1, 0.7) 100%
-    );
+/* Only apply service-card hover on devices with hover capability */
+@media (hover: hover) and (pointer: fine) {
+  .service-card:hover:not(.is-expanded) {
+      background: linear-gradient(
+        135deg,
+        rgba(249, 113, 1, 0.22) 0%,
+        rgba(255, 179, 56, 0.12) 100%
+      );
+      border-color: rgba(249, 113, 1, 0.5);
+  }
+
+  .service-card:hover:not(.is-expanded)::before {
+      background: linear-gradient(
+        135deg,
+        rgba(249, 113, 1, 0.9) 0%,
+        rgba(255, 179, 56, 0.4) 30%,
+        rgba(255, 179, 56, 0.2) 70%,
+        rgba(249, 113, 1, 0.7) 100%
+      );
+  }
 }
 
   @font-face {
@@ -340,12 +793,15 @@ a[href^="tel"] {
   /* Services Grid */
   .services-grid {
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-auto-rows: min-content;
+    justify-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-bottom: 2rem;
   }
-.service-card {
-    padding: 1.35rem 1.55rem;
-  }
+
   .service-card h3 {
     margin-bottom: 0.5rem;
     color: #ffcc00;
@@ -439,15 +895,16 @@ a[href^="tel"] {
     }
 
     .services-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      justify-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+      padding-bottom: 2rem;
     }
 
     .section_2_content {
       padding: 1rem;
-    }
-
-    .service-card {
-      padding: 0.75rem;
     }
 
     .contact-subtext {
@@ -544,15 +1001,16 @@ a[href^="tel"] {
     }
 
     .services-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+      justify-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+      padding-bottom: 2rem;
     }
 
     .section_2_content {
-      padding: 1rem;
-    }
-
-    .service-card {
-      padding: 0.75rem;
+        padding: 1rem;
     }
 
     .contact-grid {
@@ -640,10 +1098,6 @@ a[href^="tel"] {
   }
     .section_2_content {
         padding: 1rem;
-    }
-
-    .service-card {
-        padding: 0.75rem;
     }
 
     .hours-table {
@@ -1063,8 +1517,8 @@ a[href^="tel"] {
   }
 
   .contact-meta {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    justify-content: center;
     gap: clamp(1.4rem, 2.5vw, 1.8rem);
     align-items: stretch;
     padding: 0;
@@ -1208,6 +1662,8 @@ a[href^="tel"] {
     gap: 0.45rem;
     box-sizing: border-box;
     overflow: hidden;
+    max-width: 520px;
+    width: 100%;
   }
 
   .hours-header {
@@ -1370,70 +1826,25 @@ a[href^="tel"] {
     font-weight: 500;
   }
 
-  .contact-location-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-    height: 100%;
-    box-sizing: border-box;
-  }
-
-  .location-frame {
-    width: 100%;
-    flex: 1 1 auto;
-    height: 100%;
-    min-height: 0;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(0, 0, 0, 0.45);
-    overflow: hidden;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-  }
-
-  .location-frame iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    margin: 0;
-    border-radius: inherit;
-    filter: grayscale(10%) saturate(110%);
-    z-index: 0;
-  }
   
   @media (max-width: 840px) {
     .contact-meta {
-      grid-template-columns: 1fr;
-    width: min(520px, 100%);
-    margin: 0 auto;
-    justify-items: stretch;
+      width: min(520px, 100%);
+      margin: 0 auto;
     }
 
-  .contact-hours-card,
-  .contact-location-card {
-    width: 100%;
-    margin: 0;
-  }
-
-    .location-frame {
-    width: 100%;
-    min-height: clamp(280px, 48vh, 440px);
+    .contact-hours-card {
+      width: 100%;
+      margin: 0;
     }
   }
 
-@media (max-width: 540px) {
-  .contact-hours-card,
-  .contact-location-card {
-    width: 100%;
-    margin: 0;
+  @media (max-width: 540px) {
+    .contact-hours-card {
+      width: 100%;
+      margin: 0;
+    }
   }
-}
 
   
   /* === INTERACTIVITY & ANIMATIONS === */

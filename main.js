@@ -140,7 +140,149 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. Live hours status indicator
+  // 6. Service card expand/collapse functionality
+  const serviceCards = document.querySelectorAll('.service-card');
+  const servicesGrid = document.querySelector('.services-grid');
+  
+  // Create a container for expanded content below the grid
+  let expandedContainer = document.querySelector('.services-expanded-container');
+  if (!expandedContainer && servicesGrid) {
+    expandedContainer = document.createElement('div');
+    expandedContainer.className = 'services-expanded-container';
+    servicesGrid.parentNode.insertBefore(expandedContainer, servicesGrid.nextSibling);
+  }
+  
+  serviceCards.forEach(card => {
+    const compactArea = card.querySelector('.service-card-compact');
+    const expandedHeader = card.querySelector('.service-expanded-header');
+    const expandedContent = card.querySelector('.service-card-expanded');
+    
+    // Add touch listener to clear iOS stuck states
+    if (compactArea) {
+      // Clear on touchend to remove any lingering state
+      compactArea.addEventListener('touchend', function(e) {
+        // Use requestAnimationFrame for smooth cleanup
+        requestAnimationFrame(() => {
+          if (!card.classList.contains('is-expanded')) {
+            this.style.cssText = '';
+            card.style.cssText = '';
+          }
+        });
+      }, { passive: true });
+      
+      compactArea.addEventListener('click', () => {
+        // Check if this card is already expanded
+        const isCurrentlyExpanded = card.classList.contains('is-expanded');
+        const isMobile = window.innerWidth <= 448;
+        
+        if (isCurrentlyExpanded) {
+          // If clicking the already expanded card, collapse it
+          card.classList.remove('is-expanded');
+          
+          // Smooth fade-out and removal
+          if (!isMobile && expandedContainer) {
+            const expandedContent = expandedContainer.firstElementChild;
+            if (expandedContent) {
+              expandedContent.style.opacity = '0';
+              expandedContent.style.transform = 'translateY(-10px)';
+              setTimeout(() => {
+                expandedContainer.innerHTML = '';
+              }, 200);
+            }
+          }
+          
+          // Clear inline styles (iOS fix)
+          requestAnimationFrame(() => {
+            if (compactArea) {
+              compactArea.style.cssText = '';
+              card.style.cssText = '';
+            }
+          });
+        } else {
+          // Close any currently expanded card
+          serviceCards.forEach(otherCard => {
+            otherCard.classList.remove('is-expanded');
+            // Clear any lingering hover states on iOS
+            const otherCompactArea = otherCard.querySelector('.service-card-compact');
+            if (otherCompactArea) {
+              otherCompactArea.style.cssText = '';
+              otherCard.style.cssText = '';
+            }
+          });
+          
+          // Expand this card
+          card.classList.add('is-expanded');
+          
+          // Different behavior based on screen size
+          if (isMobile) {
+            // On mobile (448px and below), show expanded content in place
+            // The CSS will handle showing/hiding via display properties
+            // Scroll to the expanded card positioned right under the navbar
+            setTimeout(() => {
+              const navbar = document.querySelector('.diagonal-blocks.is-sticky');
+              const navbarHeight = navbar ? navbar.offsetHeight + 20 : 80; // 20px extra padding
+              const cardTop = card.getBoundingClientRect().top + window.pageYOffset;
+              window.scrollTo({ top: cardTop - navbarHeight, behavior: 'smooth' });
+            }, 150);
+          } else {
+            // On larger screens, move expanded content to the container below the grid
+            if (expandedContent && expandedContainer) {
+              expandedContainer.innerHTML = ''; // Clear any previous content
+              expandedContainer.appendChild(expandedContent.cloneNode(true));
+              
+              // Re-attach close handler to the cloned element
+              const clonedHeader = expandedContainer.querySelector('.service-expanded-header');
+              if (clonedHeader) {
+                clonedHeader.addEventListener('click', () => {
+                  card.classList.remove('is-expanded');
+                  expandedContainer.innerHTML = '';
+                });
+              }
+              
+              // Scroll to the expanded container positioned under the navbar (with more space on desktop)
+              setTimeout(() => {
+                const navbar = document.querySelector('.diagonal-blocks.is-sticky');
+                const navbarHeight = navbar ? navbar.offsetHeight : 60;
+                const extraPadding = 80; // More breathing room on desktop
+                const containerTop = expandedContainer.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({ top: containerTop - navbarHeight - extraPadding, behavior: 'smooth' });
+              }, 150);
+            }
+          }
+        }
+      });
+    }
+    
+    if (expandedHeader) {
+      expandedHeader.addEventListener('click', () => {
+        const isMobile = window.innerWidth <= 448;
+        // Collapse this card
+        card.classList.remove('is-expanded');
+        
+        // Smooth fade-out and removal
+        if (!isMobile && expandedContainer) {
+          const expandedContent = expandedContainer.firstElementChild;
+          if (expandedContent) {
+            expandedContent.style.opacity = '0';
+            expandedContent.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+              expandedContainer.innerHTML = '';
+            }, 200);
+          }
+        }
+        
+        // Clear any inline styles (iOS fix)
+        requestAnimationFrame(() => {
+          if (compactArea) {
+            compactArea.style.cssText = '';
+            card.style.cssText = '';
+          }
+        });
+      });
+    }
+  });
+
+  // 7. Live hours status indicator
   const hoursStatusEl = document.querySelector('.hours-status');
   const hoursStatusLabel = hoursStatusEl?.querySelector('.hours-status-label');
   const hoursStatusMeta = hoursStatusEl?.querySelector('.hours-status-meta');
