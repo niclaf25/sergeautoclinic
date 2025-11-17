@@ -2,10 +2,10 @@
  * Main JavaScript file for Serge Auto Clinic Website
  * Handles:
  * 1. Page load-in animation.
- * 2. Scroll-locked letter-by-letter text reveal.
+ * 2. Typewriter effect for hero section.
  * 3. Revealing content sections on scroll.
  * 4. Smooth-scrolling for navigation links.
- * 5. Sticky navigation transformation.
+ * 5. Transform diagonal blocks into sticky navigation.
  * 6. Interactive card hover effects.
  * 7. Service card expand/collapse functionality.
  * 8. Live hours status indicator.
@@ -39,106 +39,115 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 2000);
 
 
-  // 2. Scroll-locked letter-by-letter text reveal
-  const scrollRevealText = document.getElementById('scrollRevealText');
+  // 2. Typewriter Effect
+  const typewriterContainer = document.querySelector('.typewriter-container');
+  const cursor = document.querySelector('.typewriter-cursor');
   
-  if (scrollRevealText) {
-    const textContent = scrollRevealText.getAttribute('data-text');
-    const letters = [];
-    let currentLetterIndex = 0;
-    let scrollAccumulator = 0;
-    let isScrollLocked = true;
-    let lastScrollTime = Date.now();
+  if (typewriterContainer && cursor) {
+    const line1Text = "Rockland, Ontario";
+    const line2Text = "From Routine Maintenance to Major Repairs, Keep Your Vehicle Running Smoothly with Our Expertise and Passionate Professionals.";
     
-    // Split text into individual letters and spaces
-    textContent.split('').forEach((char, index) => {
-      const span = document.createElement('span');
-      span.className = 'letter' + (char === ' ' ? ' space' : '');
-      span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space
-      scrollRevealText.appendChild(span);
-      letters.push(span);
+    let line1Div = null;
+    let line1Span = null;
+    let line2Div = null;
+    let line2Span = null;
+    let currentCursorParent = null;
+    
+    // Helper: Blink cursor N times
+    const blinkCursor = (times, callback) => {
+      let count = 0;
+      cursor.classList.add('blink');
+      
+      const blinkInterval = setInterval(() => {
+        count++;
+        if (count >= times) {
+          clearInterval(blinkInterval);
+          cursor.classList.remove('blink');
+          if (callback) callback();
+        }
+      }, 800); // 800ms per blink (matches CSS animation)
+    };
+    
+    // Helper: Type text letter by letter
+    const typeText = (text, targetSpan, parentDiv, speed, callback) => {
+      cursor.classList.add('solid');
+      let index = 0;
+      
+      const typeInterval = setInterval(() => {
+        if (index < text.length) {
+          targetSpan.textContent += text[index];
+          index++;
+          // Keep cursor at the end of the text
+          parentDiv.appendChild(cursor);
+        } else {
+          clearInterval(typeInterval);
+          cursor.classList.remove('solid');
+          if (callback) callback();
+        }
+      }, speed);
+    };
+    
+    // Main animation sequence
+    const startTypewriter = () => {
+      // Clear any existing content except cursor
+      typewriterContainer.innerHTML = '';
+      typewriterContainer.appendChild(cursor);
+      
+      // Show container and cursor
+      typewriterContainer.classList.add('active');
+      
+      // Create line 1 container
+      line1Div = document.createElement('div');
+      line1Div.style.display = 'block';
+      typewriterContainer.appendChild(line1Div);
+      
+      // Wait a moment, then start
+      setTimeout(() => {
+        // Move cursor to line 1
+        line1Div.appendChild(cursor);
+        
+        // Step 1: Blink 3 times before typing
+        blinkCursor(3, () => {
+          // Step 2: Create line 1 span and type
+          line1Span = document.createElement('span');
+          line1Span.className = 'typewriter-line-1';
+          line1Div.insertBefore(line1Span, cursor);
+          
+          typeText(line1Text, line1Span, line1Div, 60, () => {
+            // Step 3: Blink once after line 1
+            blinkCursor(1, () => {
+              // Step 4: Create line 2 container
+              line2Div = document.createElement('div');
+              line2Div.style.display = 'block';
+              line2Div.style.marginTop = '1rem';
+              typewriterContainer.appendChild(line2Div);
+              
+              // Move cursor to line 2
+              line2Div.appendChild(cursor);
+              
+              // Create line 2 span
+              line2Span = document.createElement('span');
+              line2Span.className = 'typewriter-line-2';
+              line2Div.insertBefore(line2Span, cursor);
+              
+              // Step 5: Type line 2 immediately
+              typeText(line2Text, line2Span, line2Div, 35, () => {
+                // Step 6: Blink continuously at the end
+                cursor.classList.add('blink');
+              });
+            });
+          });
+        });
+      }, 500); // Initial delay after page load
+    };
+    
+    // Start typewriter after page is loaded
+    window.addEventListener('load', () => {
+      setTimeout(startTypewriter, 1000); // Start 1 second after page load
     });
     
-    // Lock scroll initially
-    const lockScroll = () => {
-      document.body.classList.add('scroll-locked');
-      document.body.style.top = `-${window.scrollY}px`;
-    };
-    
-    // Unlock scroll
-    const unlockScroll = () => {
-      const scrollY = document.body.style.top;
-      document.body.classList.remove('scroll-locked');
-      document.body.style.top = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      isScrollLocked = false;
-    };
-    
-    // Reveal letters progressively
-    const revealLetters = (count) => {
-      for (let i = 0; i < count && currentLetterIndex < letters.length; i++) {
-        letters[currentLetterIndex].classList.add('revealed');
-        currentLetterIndex++;
-      }
-      
-      // Unlock scroll when all letters are revealed
-      if (currentLetterIndex >= letters.length) {
-        setTimeout(() => {
-          unlockScroll();
-        }, 300); // Small delay after last letter
-      }
-    };
-    
-    // Handle scroll attempts
-    const handleScrollAttempt = (event) => {
-      if (!isScrollLocked) return;
-      
-      event.preventDefault();
-      
-      const currentTime = Date.now();
-      const timeDelta = currentTime - lastScrollTime;
-      lastScrollTime = currentTime;
-      
-      // Calculate scroll speed (faster scroll = more letters at once)
-      let scrollDelta = 0;
-      if (event.type === 'wheel') {
-        scrollDelta = Math.abs(event.deltaY);
-      } else if (event.type === 'touchmove') {
-        scrollDelta = 50; // Base value for touch
-      }
-      
-      // Speed multiplier: faster scroll reveals more letters
-      // But even slow scroll should be pretty fast (minimum 2-3 letters per scroll)
-      const speedMultiplier = Math.max(1, scrollDelta / 30);
-      const lettersToReveal = Math.ceil(2 * speedMultiplier); // Minimum 2 letters
-      
-      scrollAccumulator += scrollDelta;
-      
-      // Reveal letters based on accumulated scroll
-      if (scrollAccumulator > 10) {
-        revealLetters(lettersToReveal);
-        scrollAccumulator = 0;
-      }
-    };
-    
-    // Wait for page to load before locking
-    setTimeout(() => {
-      if (document.body.classList.contains('page-loaded')) {
-        lockScroll();
-        
-        // Add event listeners
-        window.addEventListener('wheel', handleScrollAttempt, { passive: false });
-        window.addEventListener('touchmove', handleScrollAttempt, { passive: false });
-        
-        // Arrow keys and spacebar support
-        window.addEventListener('keydown', (event) => {
-          if (isScrollLocked && ['ArrowDown', 'ArrowUp', 'Space', ' '].includes(event.key)) {
-            event.preventDefault();
-            revealLetters(3);
-          }
-        });
-      }
-    }, 500); // Wait for initial page animations
+    // Fallback
+    setTimeout(startTypewriter, 3000);
   }
 
 

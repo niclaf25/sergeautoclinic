@@ -32,13 +32,6 @@ body {
     overflow-x: hidden;
   }
 
-  /* Scroll lock for letter reveal */
-  body.scroll-locked {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-  }
-
 a[href^="tel"] {
   color: inherit;
   text-decoration: none;
@@ -699,10 +692,13 @@ a[href^="tel"] {
   .header_box {
     position: absolute;
     left: 5vw;
-  bottom: 6vh;
+    bottom: 6vh;
     z-index: 2;
     max-width: 90%;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
   
   .header {
@@ -715,54 +711,70 @@ a[href^="tel"] {
     transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
   }
 
-  .hero-location {
-    margin-top: 0.75rem;
-    font-size: clamp(1.2rem, 2.4vw, 2rem);
-    letter-spacing: 0.2rem;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.8);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
-  }
-  
-  .sub_header {
-    max-width: 60vw;
-    font-size: clamp(1.3rem, 2vw, 2rem);
-    line-height: 1.4;
-    margin-top: 1rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
-  }
-
-  /* Scroll reveal text - letter by letter animation */
-  .scroll-reveal-text {
-    min-height: 3em;
-  }
-
-  .scroll-reveal-text .letter {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(20px) scale(0.8);
-    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
-  }
-
-  .scroll-reveal-text .letter.revealed {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  .scroll-reveal-text .letter.space {
-    width: 0.25em;
-  }
 
 .hero-status {
-  margin-top: 1.6rem;
+  margin-top: auto;
   max-width: min(420px, 80vw);
   display: flex;
   justify-content: flex-start;
+  flex-shrink: 0;
+}
+
+/* Typewriter Effect Styles */
+.typewriter-container {
+  margin-top: 0.75rem;
+  margin-bottom: 1.5rem;
+  min-height: 1px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.typewriter-container.active {
+  opacity: 1;
+}
+
+.typewriter-line-1 {
+  font-size: clamp(1.2rem, 2.4vw, 2rem);
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  display: inline;
+  white-space: nowrap;
+}
+
+.typewriter-line-2 {
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+  display: inline;
+  max-width: 60vw;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.8em;
+  background-color: #fff;
+  margin-left: 3px;
+  vertical-align: baseline;
+  opacity: 0;
+  position: relative;
+  top: 0.3em;
+}
+
+.typewriter-cursor.blink {
+  animation: cursorBlink 0.8s steps(1) infinite;
+}
+
+.typewriter-cursor.solid {
+  opacity: 1;
+  animation: none;
+}
+
+@keyframes cursorBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
   
   /* === CONTENT SECTIONS (.section_2) === */
@@ -888,10 +900,6 @@ a[href^="tel"] {
         max-width: 100%;
       bottom: 7vh;
     }
-    .hero-location {
-        font-size: clamp(1.1rem, 3vw, 1.7rem);
-        letter-spacing: 0.15rem;
-    }
     .contact-grid {
         gap: 1.4rem;
     }
@@ -929,13 +937,13 @@ a[href^="tel"] {
       font-size: 14vw;
     }
 
-    .sub_header {
-      max-width: 100%;
-      font-size: clamp(1rem, 4vw, 1.5rem);
+    .hero-status {
+      margin-top: auto;
     }
 
-    .hero-status {
-      margin-top: 1.2rem;
+    .typewriter-line-2 {
+      max-width: 100%;
+      font-size: clamp(1rem, 4vw, 1.5rem);
     }
 
     .services-grid {
@@ -1036,13 +1044,13 @@ a[href^="tel"] {
       font-size: 14vw;
     }
 
-    .sub_header {
-      max-width: 100%;
-      font-size: clamp(1rem, 4vw, 1.5rem);
+    .hero-status {
+      margin-top: auto;
     }
 
-    .hero-status {
-      margin-top: 1rem;
+    .typewriter-line-2 {
+      max-width: 100%;
+      font-size: clamp(1rem, 4vw, 1.5rem);
     }
 
     #about, #services, #contact, .hours {
@@ -1137,7 +1145,7 @@ a[href^="tel"] {
     right: 5vw;
   }
   .hero-status {
-      margin-top: 0.9rem;
+      margin-top: auto;
   }
   #about, #services, #contact, .hours {
     scroll-margin-top: 0;
@@ -1955,17 +1963,10 @@ a[href^="tel"] {
   /* === INTERACTIVITY & ANIMATIONS === */
 
   /* Page Load-in Animations */
-  body.page-loaded .header,
-  body.page-loaded .sub_header,
-  body.page-loaded .scroll-reveal-text {
+  body.page-loaded .header {
     opacity: 1;
     transform: translateY(0);
   }
-
-body.page-loaded .hero-location {
-  opacity: 1;
-  transform: translateY(0);
-}
 
   body.page-loaded .diagonal-blocks {
     opacity: 1;
