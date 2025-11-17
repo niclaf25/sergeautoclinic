@@ -2,19 +2,15 @@
  * Main JavaScript file for Serge Auto Clinic Website
  * Handles:
  * 1. Page load-in animation.
- * 2. Typewriter effect for hero section.
- * 3. Revealing content sections on scroll.
- * 4. Smooth-scrolling for navigation links.
- * 5. Transform diagonal blocks into sticky navigation.
- * 6. Interactive card hover effects.
- * 7. Service card expand/collapse functionality.
- * 8. Live hours status indicator.
+ * 2. Revealing content sections on scroll.
+ * 3. Smooth-scrolling for navigation links.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Page Load-in animation
   const loader = document.getElementById('loader');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
   // On window load, trigger the animation and then hide the loader
   window.addEventListener('load', () => {
@@ -38,120 +34,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 2000);
 
+  // Hero typewriter animation
+  const heroLocationEl = document.querySelector('.hero-location');
+  const heroTaglineEl = document.querySelector('.sub_header');
 
-  // 2. Typewriter Effect
-  const typewriterContainer = document.querySelector('.typewriter-container');
-  const cursor = document.querySelector('.typewriter-cursor');
-  
-  if (typewriterContainer && cursor) {
-    const line1Text = "Rockland, Ontario";
-    const line2Text = "From Routine Maintenance to Major Repairs, Keep Your Vehicle Running Smoothly with Our Expertise and Passionate Professionals.";
-    
-    let line1Div = null;
-    let line1Span = null;
-    let line2Div = null;
-    let line2Span = null;
-    let currentCursorParent = null;
-    
-    // Helper: Blink cursor N times
-    const blinkCursor = (times, callback) => {
-      let count = 0;
-      cursor.classList.add('blink');
-      
-      const blinkInterval = setInterval(() => {
-        count++;
-        if (count >= times) {
-          clearInterval(blinkInterval);
-          cursor.classList.remove('blink');
-          if (callback) callback();
+  const runTypewriter = () => {
+    if (!heroLocationEl || !heroTaglineEl) return;
+
+    const locationText = heroLocationEl.textContent.trim();
+    const taglineText = heroTaglineEl.textContent.trim();
+
+    if (!locationText || !taglineText) return;
+
+    const typeText = (element, text, speed, delay = 0) =>
+      new Promise((resolve) => {
+        if (prefersReducedMotion) {
+          element.textContent = text;
+          resolve();
+          return;
         }
-      }, 800); // 800ms per blink (matches CSS animation)
-    };
-    
-    // Helper: Type text letter by letter
-    const typeText = (text, targetSpan, parentDiv, speed, callback) => {
-      cursor.classList.add('solid');
-      let index = 0;
-      
-      const typeInterval = setInterval(() => {
-        if (index < text.length) {
-          targetSpan.textContent += text[index];
-          index++;
-          // Keep cursor at the end of the text
-          parentDiv.appendChild(cursor);
-        } else {
-          clearInterval(typeInterval);
-          cursor.classList.remove('solid');
-          if (callback) callback();
-        }
-      }, speed);
-    };
-    
-    // Main animation sequence
-    const startTypewriter = () => {
-      // Clear any existing content except cursor
-      typewriterContainer.innerHTML = '';
-      typewriterContainer.appendChild(cursor);
-      
-      // Show container and cursor
-      typewriterContainer.classList.add('active');
-      
-      // Create line 1 container
-      line1Div = document.createElement('div');
-      line1Div.style.display = 'block';
-      typewriterContainer.appendChild(line1Div);
-      
-      // Wait a moment, then start
-      setTimeout(() => {
-        // Move cursor to line 1
-        line1Div.appendChild(cursor);
-        
-        // Step 1: Blink 3 times before typing
-        blinkCursor(3, () => {
-          // Step 2: Create line 1 span and type
-          line1Span = document.createElement('span');
-          line1Span.className = 'typewriter-line-1';
-          line1Div.insertBefore(line1Span, cursor);
-          
-          typeText(line1Text, line1Span, line1Div, 60, () => {
-            // Step 3: Blink once after line 1
-            blinkCursor(1, () => {
-              // Step 4: Create line 2 container
-              line2Div = document.createElement('div');
-              line2Div.style.display = 'block';
-              line2Div.style.marginTop = '1rem';
-              typewriterContainer.appendChild(line2Div);
-              
-              // Move cursor to line 2
-              line2Div.appendChild(cursor);
-              
-              // Create line 2 span
-              line2Span = document.createElement('span');
-              line2Span.className = 'typewriter-line-2';
-              line2Div.insertBefore(line2Span, cursor);
-              
-              // Step 5: Type line 2 immediately
-              typeText(line2Text, line2Span, line2Div, 35, () => {
-                // Step 6: Blink continuously at the end
-                cursor.classList.add('blink');
-              });
-            });
-          });
-        });
-      }, 500); // Initial delay after page load
-    };
-    
-    // Start typewriter after page is loaded
-    window.addEventListener('load', () => {
-      setTimeout(startTypewriter, 1000); // Start 1 second after page load
-    });
-    
-    // Fallback
-    setTimeout(startTypewriter, 3000);
-  }
+
+        const characters = Array.from(text);
+        element.textContent = '';
+        let index = 0;
+
+        const type = () => {
+          if (index <= characters.length) {
+            element.textContent = characters.slice(0, index).join('');
+            index += 1;
+            setTimeout(type, speed);
+          } else {
+            resolve();
+          }
+        };
+
+        setTimeout(type, delay);
+      });
+
+    heroLocationEl.textContent = '';
+    heroTaglineEl.textContent = '';
+
+    typeText(heroLocationEl, locationText, 70, 250)
+      .then(() => typeText(heroTaglineEl, taglineText, 28, 200));
+  };
+
+  // Wait until fonts/layout ready
+  window.addEventListener('load', runTypewriter);
 
 
-  // 3. Reveal on scroll functionality
+  // 2. Reveal on scroll functionality
   const revealElements = document.querySelectorAll('.reveal-on-scroll');
 
   const observerOptions = {
@@ -174,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
   
-  // 4. Navigation smooth-scrolling
+  // 3. Navigation smooth-scrolling
   const smoothScroll = (selector, targetId) => {
     const element = document.querySelector(selector);
     if (element) {
@@ -217,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
   smoothScroll('.block-services', 'services');
   smoothScroll('.block-about', 'about');
 
-  // 5. Transform diagonal blocks into sticky navigation after hero
+  // 4. Transform diagonal blocks into sticky navigation after hero
   const diagonalBlocks = document.querySelector('.diagonal-blocks');
   const navSentinel = document.querySelector('.nav-sentinel');
 
@@ -242,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navObserver.observe(navSentinel);
   }
 
-  // 6. Interactive card hover effects - subtle glow tracking (desktop only)
+  // 5. Interactive card hover effects - subtle glow tracking (desktop only)
   // Check if device supports hover (not a touch device)
   const supportsHover = window.matchMedia('(hover: hover)').matches;
   
@@ -280,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 7. Service card expand/collapse functionality
+  // 6. Service card expand/collapse functionality
   const serviceCards = document.querySelectorAll('.service-card');
   const servicesGrid = document.querySelector('.services-grid');
   
@@ -422,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 8. Live hours status indicator
+  // 7. Live hours status indicator
   const hoursStatusEl = document.querySelector('.hours-status');
   const hoursStatusLabel = hoursStatusEl?.querySelector('.hours-status-label');
   const hoursStatusMeta = hoursStatusEl?.querySelector('.hours-status-meta');

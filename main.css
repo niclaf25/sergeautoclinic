@@ -692,13 +692,10 @@ a[href^="tel"] {
   .header_box {
     position: absolute;
     left: 5vw;
-    bottom: 6vh;
+  bottom: 6vh;
     z-index: 2;
     max-width: 90%;
     padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
   }
   
   .header {
@@ -711,70 +708,33 @@ a[href^="tel"] {
     transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
   }
 
+  .hero-location {
+    margin-top: 0.75rem;
+    font-size: clamp(1.2rem, 2.4vw, 2rem);
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
+  }
+  
+  .sub_header {
+    max-width: 60vw;
+    font-size: clamp(1.3rem, 2vw, 2rem);
+    line-height: 1.4;
+    margin-top: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
+  }
 
 .hero-status {
-  margin-top: auto;
+  margin-top: 1.6rem;
   max-width: min(420px, 80vw);
   display: flex;
   justify-content: flex-start;
-  flex-shrink: 0;
-}
-
-/* Typewriter Effect Styles */
-.typewriter-container {
-  margin-top: 0.75rem;
-  margin-bottom: 1.5rem;
-  min-height: 1px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.typewriter-container.active {
-  opacity: 1;
-}
-
-.typewriter-line-1 {
-  font-size: clamp(1.2rem, 2.4vw, 2rem);
-  letter-spacing: 0.2rem;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  display: inline;
-  white-space: nowrap;
-}
-
-.typewriter-line-2 {
-  font-size: clamp(1.3rem, 2vw, 2rem);
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.85);
-  display: inline;
-  max-width: 60vw;
-}
-
-.typewriter-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1.8em;
-  background-color: #fff;
-  margin-left: 3px;
-  vertical-align: baseline;
-  opacity: 0;
-  position: relative;
-  top: 0.3em;
-}
-
-.typewriter-cursor.blink {
-  animation: cursorBlink 0.8s steps(1) infinite;
-}
-
-.typewriter-cursor.solid {
-  opacity: 1;
-  animation: none;
-}
-
-@keyframes cursorBlink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
 }
   
   /* === CONTENT SECTIONS (.section_2) === */
@@ -900,6 +860,10 @@ a[href^="tel"] {
         max-width: 100%;
       bottom: 7vh;
     }
+    .hero-location {
+        font-size: clamp(1.1rem, 3vw, 1.7rem);
+        letter-spacing: 0.15rem;
+    }
     .contact-grid {
         gap: 1.4rem;
     }
@@ -937,13 +901,13 @@ a[href^="tel"] {
       font-size: 14vw;
     }
 
-    .hero-status {
-      margin-top: auto;
-    }
-
-    .typewriter-line-2 {
+    .sub_header {
       max-width: 100%;
       font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+
+    .hero-status {
+      margin-top: 1.2rem;
     }
 
     .services-grid {
@@ -1044,13 +1008,13 @@ a[href^="tel"] {
       font-size: 14vw;
     }
 
-    .hero-status {
-      margin-top: auto;
-    }
-
-    .typewriter-line-2 {
+    .sub_header {
       max-width: 100%;
       font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+
+    .hero-status {
+      margin-top: 1rem;
     }
 
     #about, #services, #contact, .hours {
@@ -1145,7 +1109,7 @@ a[href^="tel"] {
     right: 5vw;
   }
   .hero-status {
-      margin-top: auto;
+      margin-top: 0.9rem;
   }
   #about, #services, #contact, .hours {
     scroll-margin-top: 0;
@@ -1484,6 +1448,16 @@ a[href^="tel"] {
     padding: 2.5rem 2rem;
     text-align: center;
     overflow: visible;
+    /* Enhanced light blur effect */
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(80px) saturate(180%) brightness(1.1) !important;
+    -webkit-backdrop-filter: blur(80px) saturate(180%) brightness(1.1) !important;
+    filter: blur(0);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.3),
+      0 2px 8px 0 rgba(0, 0, 0, 0.2),
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 2px 0 rgba(0, 0, 0, 0.1) !important;
   }
   
   .team-member-card img {
@@ -1632,6 +1606,16 @@ a[href^="tel"] {
     --tile-icon-color: rgba(255, 255, 255, 0.92);
     --tile-cta-color: rgba(255, 255, 255, 0.72);
     box-sizing: border-box;
+    /* Enhanced light blur effect */
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(80px) saturate(180%) brightness(1.1) !important;
+    -webkit-backdrop-filter: blur(80px) saturate(180%) brightness(1.1) !important;
+    filter: blur(0);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.3),
+      0 2px 8px 0 rgba(0, 0, 0, 0.2),
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 2px 0 rgba(0, 0, 0, 0.1) !important;
   }
 
   .contact-tile .tile-body {
@@ -1738,12 +1722,43 @@ a[href^="tel"] {
     margin-top: 0;
   }
 
-  /* Mobile: Stack buttons vertically on very small screens */
-  @media (max-width: 380px) {
-    .tile-actions-group {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+  /* Icon-only tile actions (for map buttons) */
+  .tile-action--icon-only {
+    padding: 0;
+    min-width: auto;
+    width: auto;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .tile-action--icon-only:hover {
+    transform: scale(1.08);
+    opacity: 0.85;
+    background: none !important;
+  }
+
+  .tile-action--icon-only .map-icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* Make Google Maps icon slightly larger */
+  .tile-action--google-maps .map-icon {
+    width: 90px;
+    height: 90px;
+  }
+
+  /* Keep icons side by side on all screen sizes */
+  .tile-actions-group {
+    flex-direction: row !important;
   }
 
   .contact-tile--call {
@@ -1777,6 +1792,16 @@ a[href^="tel"] {
     overflow: hidden;
     max-width: 520px;
     width: 100%;
+    /* Enhanced light blur effect */
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(80px) saturate(180%) brightness(1.1) !important;
+    -webkit-backdrop-filter: blur(80px) saturate(180%) brightness(1.1) !important;
+    filter: blur(0);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.3),
+      0 2px 8px 0 rgba(0, 0, 0, 0.2),
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 2px 0 rgba(0, 0, 0, 0.1) !important;
   }
 
   .hours-header {
@@ -1963,10 +1988,16 @@ a[href^="tel"] {
   /* === INTERACTIVITY & ANIMATIONS === */
 
   /* Page Load-in Animations */
-  body.page-loaded .header {
+  body.page-loaded .header,
+  body.page-loaded .sub_header {
     opacity: 1;
     transform: translateY(0);
   }
+
+body.page-loaded .hero-location {
+  opacity: 1;
+  transform: translateY(0);
+}
 
   body.page-loaded .diagonal-blocks {
     opacity: 1;
